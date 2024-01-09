@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/palatte.dart';
+import 'package:rostros_encontrados/presentation/screens/inicio_sesion.dart';
+import 'package:rostros_encontrados/presentation/screens/registro_usuario.dart'; // Importa el archivo que contiene la pantalla de registro
 
 class StartPage extends StatelessWidget {
-  const StartPage({super.key});
+  const StartPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class StartPage extends StatelessWidget {
             image: DecorationImage(
               image: AssetImage('assets/images/fondoGDL.jpg'),
               fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken)
+              colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken),
             ),
           ),
         ),
@@ -22,40 +24,50 @@ class StartPage extends StatelessWidget {
           body: SafeArea(
             child: Column(
               children: [
-                const SizedBox(height: 45,
-                ),
+                const SizedBox(height: 45),
                 const Center(
                   child: Column(
                     children: [
-                      Text('ROSTROS',
-                  style: pLogo,),
-                      Text('ENCONTRADOS',
-                  style: pLogo,),
+                      Text('ROSTROS', style: pLogo),
+                      Text('ENCONTRADOS', style: pLogo),
                     ],
-                  )
+                  ),
                 ),
                 const SizedBox(
                   height: 430,
                 ),
                 Center(
                   child: TextButton(
-                          style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: const Color.fromARGB(255, 253, 229, 8),
-                          padding: const EdgeInsets.all(13),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                        ),
-                        onPressed: (){}, 
-                        child: const Text("     Iniciar sesión     ", style: TextStyle(fontSize: 17, color: Colors.black),)
-                      ),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 253, 229, 8),
+                      padding: const EdgeInsets.all(13),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const InicioSesion()),
+                      );
+                    },
+                    child: const Text("     Iniciar sesión     ", style: TextStyle(fontSize: 17, color: Colors.black)),
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                const Center(
-                  child: Text('¿No tienes una cuenta? Regístrate aquí',
-                  style: TextStyle(fontSize: 13,
-                  color:Colors.white),
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const RegistrarUsuario()), // Reemplaza con la pantalla de registro que tienes
+                      );
+                    },
+                    child: const Text(
+                      '¿No tienes una cuenta? Regístrate aquí',
+                      style: TextStyle(fontSize: 13, color: Colors.white),
+                    ),
                   ),
                 ),
               ],
@@ -66,3 +78,4 @@ class StartPage extends StatelessWidget {
     );
   }
 }
+
