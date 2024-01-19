@@ -93,7 +93,6 @@ Widget campoApellidos(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     child: TextField(
-      obscureText: true,
       decoration: InputDecoration(
          //contentPadding: EdgeInsets.symmetric(vertical: 15),
         hintText: "Apellidos",
@@ -150,7 +149,6 @@ Widget campoNumCelular(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     child: TextField(
-      obscureText: true,
       decoration: InputDecoration(
         hintText: "Número de celular",
         fillColor: Color.fromARGB(255, 236, 236, 236),
@@ -164,7 +162,6 @@ Widget campoNumTelefono(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     child: TextField(
-      obscureText: true,
       decoration: InputDecoration(
         hintText: "Número de teléfono fijo",
         fillColor: Color.fromARGB(255, 236, 236, 236),

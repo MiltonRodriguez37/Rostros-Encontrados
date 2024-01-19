@@ -92,7 +92,6 @@ Widget campoApellidos(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     child: TextField(
-      obscureText: true,
       decoration: InputDecoration(
          //contentPadding: EdgeInsets.symmetric(vertical: 15),
         hintText: "Apellidos",
@@ -121,7 +120,6 @@ Widget campoFechaLugar(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     child: TextField(
-      obscureText: true,
       decoration: InputDecoration(
         hintText: "Fecha y lugar último avistamiento",
         fillColor: Color.fromARGB(255, 236, 236, 236),
@@ -135,7 +133,6 @@ Widget campoCaracteristicas(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     child: TextField(
-      obscureText: true,
       decoration: InputDecoration(
         hintText: "Características particulares",
         fillColor: Color.fromARGB(255, 236, 236, 236),
@@ -149,7 +146,6 @@ Widget campoDatosAdicionales(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     child: TextField(
-      obscureText: true,
       decoration: InputDecoration(
         hintText: "Datos adicionales",
         fillColor: Color.fromARGB(255, 236, 236, 236),
