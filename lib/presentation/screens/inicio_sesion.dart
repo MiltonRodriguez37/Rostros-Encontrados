@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
 Widget cuerpo(BuildContext context){
   return Container (
     decoration: BoxDecoration(
-      image: DecorationImage(image: NetworkImage("https://thumbs.dreamstime.com/b/portrait-innocence-innocent-kid-slum-islamabad-pakistan-67584463.jpg"), //iMAGEN DE FONDO
+      image: DecorationImage(image: AssetImage('assets/images/fondo.jpg'), //Imagen de fondo
       fit: BoxFit.cover
       
       ) 
@@ -43,23 +43,26 @@ Widget cuerpo(BuildContext context){
     
   
     child: Center(
-      child: Container (
-        width: 250,
-          height: 300,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+      child: Padding (
+        padding: const EdgeInsets.only(top: 80.0),
+        child: Container (
+          width: 250,
+            height: 275,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+          child: Column (
+            mainAxisAlignment: MainAxisAlignment.center, //Teniendo la columna, se debe centrar dentro de la columna
+            children: <Widget>[
+              nombre(),
+              SizedBox(height: 20,),
+              campoUsuario(),
+              campoContrasena(),
+              SizedBox(height: 20,),
+              botonEntrar(context)
+            ],
           ),
-        child: Column (
-          mainAxisAlignment: MainAxisAlignment.center, //Teniendo la columna, se debe centrar dentro de la columna
-          children: <Widget>[
-            nombre(),
-            SizedBox(height: 20,),
-            campoUsuario(),
-            campoContrasena(),
-            SizedBox(height: 20,),
-            botonEntrar(context)
-          ],
         ),
       ),
     ),
@@ -111,6 +114,7 @@ Widget nombre(){
 Widget campoUsuario(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+    height: 50,
     child: TextField(
       decoration: InputDecoration(
         hintText: "User",
@@ -124,6 +128,7 @@ Widget campoUsuario(){
 Widget campoContrasena(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+    height: 50,
     child: TextField(
       obscureText: true,
       decoration: InputDecoration(
