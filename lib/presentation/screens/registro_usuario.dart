@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
 Widget cuerpo(){
   return Container (
     decoration: BoxDecoration(
-      image: DecorationImage(image: NetworkImage("https://thumbs.dreamstime.com/b/portrait-innocence-innocent-kid-slum-islamabad-pakistan-67584463.jpg"), //iMAGEN DE FONDO
+      image: DecorationImage(image: AssetImage('assets/images/fondo.jpg'), //Imagen de fondo
       fit: BoxFit.cover
       
       ) 
@@ -43,28 +43,31 @@ Widget cuerpo(){
     
   
     child: Center(
-      child: Container (
-        width: 275,
-          height: 500,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+      child: Padding (
+        padding: const EdgeInsets.only(top: 80.0),
+        child: Container (
+          width: 275,
+            height: 425,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+          child: Column (
+            mainAxisAlignment: MainAxisAlignment.center, //Teniendo la columna, se debe centrar dentro de la columna
+            children: <Widget>[
+              nombre(),
+              SizedBox(height: 20,),
+              campoNombre(),
+              campoApellidos(),
+              campoCorreo(),
+              campoContrasena(),
+              campoRepContrasena(),
+              campoNumCelular(),
+              //campoNumTelefono(),
+              SizedBox(height: 20,),
+              botonRegistrarse()
+            ],
           ),
-        child: Column (
-          mainAxisAlignment: MainAxisAlignment.center, //Teniendo la columna, se debe centrar dentro de la columna
-          children: <Widget>[
-            nombre(),
-            SizedBox(height: 20,),
-            campoNombre(),
-            campoApellidos(),
-            campoCorreo(),
-            campoContrasena(),
-            campoRepContrasena(),
-            campoNumCelular(),
-            //campoNumTelefono(),
-            SizedBox(height: 20,),
-            botonRegistrarse()
-          ],
         ),
       ),
     ),
@@ -79,6 +82,7 @@ Widget nombre(){
 Widget campoNombre(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
     child: TextField(
       decoration: InputDecoration(
         hintText: "Nombre",
@@ -92,6 +96,7 @@ Widget campoNombre(){
 Widget campoApellidos(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
     child: TextField(
       decoration: InputDecoration(
          //contentPadding: EdgeInsets.symmetric(vertical: 15),
@@ -107,6 +112,7 @@ Widget campoApellidos(){
 Widget campoCorreo(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
     child: TextField(
       decoration: InputDecoration(
         hintText: "Correo electrónico",
@@ -120,6 +126,7 @@ Widget campoCorreo(){
 Widget campoContrasena(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
     child: TextField(
       obscureText: true,
       decoration: InputDecoration(
@@ -134,6 +141,7 @@ Widget campoContrasena(){
 Widget campoRepContrasena(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
     child: TextField(
       obscureText: true,
       decoration: InputDecoration(
@@ -148,6 +156,7 @@ Widget campoRepContrasena(){
 Widget campoNumCelular(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
     child: TextField(
       decoration: InputDecoration(
         hintText: "Número de celular",
@@ -161,6 +170,7 @@ Widget campoNumCelular(){
 Widget campoNumTelefono(){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
     child: TextField(
       decoration: InputDecoration(
         hintText: "Número de teléfono fijo",
