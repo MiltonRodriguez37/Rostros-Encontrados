@@ -6,7 +6,7 @@ class Registrar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: "Mi App",
       home: Home(),
     );
@@ -22,6 +22,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,8 +35,8 @@ class _HomeState extends State<Home> {
 
 Widget cuerpo(){
   return Container (
-    decoration: BoxDecoration(
-      image: DecorationImage(image: NetworkImage("https://thumbs.dreamstime.com/b/portrait-innocence-innocent-kid-slum-islamabad-pakistan-67584463.jpg"), //iMAGEN DE FONDO
+    decoration: const BoxDecoration(
+      image: DecorationImage(image: AssetImage('assets/images/fondo.jpg'), //Imagen de fondo
       fit: BoxFit.cover
       
       ) 
@@ -43,27 +44,30 @@ Widget cuerpo(){
     
   
     child: Center(
-      child: Container (
-        width: 275,
+      child: Padding (
+        padding: const EdgeInsets.only(top: 80.0),
+        child: Container (
+          width: 275,
           height: 500,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
           ),
-        child: Column (
-          mainAxisAlignment: MainAxisAlignment.center, //Teniendo la columna, se debe centrar dentro de la columna
-          children: <Widget>[
-            nombre(),
-            SizedBox(height: 20,),
-            campoNombre(),
-            campoApellidos(),
-            campoFechaNac(),
-            campoFechaLugar(),
-            campoCaracteristicas(),
-            campoDatosAdicionales(),
-            SizedBox(height: 20,),
-            botonAdjuntarImagen()
-          ],
+          child: Column (
+            mainAxisAlignment: MainAxisAlignment.center, //Teniendo la columna, se debe centrar dentro de la columna
+            children: <Widget>[
+              nombre(),
+              const SizedBox(height: 20,),
+              campoNombre(),
+              campoApellidos(),
+              campoFechaNac(),
+              campoFechaLugar(),
+              campoCaracteristicas(),
+              campoDatosAdicionales(),
+              const SizedBox(height: 20,),
+              botonAdjuntarImagen()
+            ],
+          ),
         ),
       ),
     ),
@@ -72,13 +76,14 @@ Widget cuerpo(){
 }
 
 Widget nombre(){
-  return Text("DATOS DEL DESAPARECIDO/A",  textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontSize: 22.0),);
+  return const Text("DATOS DEL DESAPARECIDO/A",  textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontSize: 22.0),);
 }
 
 Widget campoNombre(){
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    child: TextField(
+    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
+    child: const TextField(
       decoration: InputDecoration(
         hintText: "Nombre",
         fillColor: Color.fromARGB(255, 236, 236, 236),
@@ -90,9 +95,9 @@ Widget campoNombre(){
 
 Widget campoApellidos(){
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    child: TextField(
-      obscureText: true,
+    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
+    child: const TextField(
       decoration: InputDecoration(
          //contentPadding: EdgeInsets.symmetric(vertical: 15),
         hintText: "Apellidos",
@@ -106,8 +111,9 @@ Widget campoApellidos(){
 
 Widget campoFechaNac(){
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    child: TextField(
+    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
+    child: const TextField(
       decoration: InputDecoration(
         hintText: "Fecha de nacimiento",
         fillColor: Color.fromARGB(255, 236, 236, 236),
@@ -119,9 +125,9 @@ Widget campoFechaNac(){
 
 Widget campoFechaLugar(){
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    child: TextField(
-      obscureText: true,
+    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
+    child: const TextField(
       decoration: InputDecoration(
         hintText: "Fecha y lugar último avistamiento",
         fillColor: Color.fromARGB(255, 236, 236, 236),
@@ -133,9 +139,9 @@ Widget campoFechaLugar(){
 
 Widget campoCaracteristicas(){
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    child: TextField(
-      obscureText: true,
+    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
+    child: const TextField(
       decoration: InputDecoration(
         hintText: "Características particulares",
         fillColor: Color.fromARGB(255, 236, 236, 236),
@@ -147,9 +153,8 @@ Widget campoCaracteristicas(){
 
 Widget campoDatosAdicionales(){
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    child: TextField(
-      obscureText: true,
+    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    child: const TextField(
       decoration: InputDecoration(
         hintText: "Datos adicionales",
         fillColor: Color.fromARGB(255, 236, 236, 236),
@@ -168,14 +173,16 @@ Widget botonAdjuntarImagen(){
     child: TextButton(
       style: TextButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: Color.fromARGB(255, 253, 229, 8),
+        backgroundColor: const Color.fromARGB(255, 253, 229, 8),
         //padding: EdgeInsets.symmetric(horizontal:100, vertical: 3),
-        padding: EdgeInsets.all(20), //content padding inside button
+        padding: const EdgeInsets.all(20), //content padding inside button
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       ),
       onPressed: (){}, 
-      child: Text("Adjuntar imagen", style: TextStyle(fontSize: 17, color: Colors.black),)
+      child: const Text("Adjuntar imagen", style: TextStyle(fontSize: 17, color: Colors.black),)
       
     ),
   );
 }
+
+//https://mundocursos-online.translate.goog/como-poner-una-imagen-en-flutter/?_x_tr_sl=es&_x_tr_tl=de&_x_tr_hl=de&_x_tr_pto=sc
