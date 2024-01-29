@@ -61,6 +61,7 @@ Widget cuerpo(BuildContext context){
               nombre(),
               const SizedBox(height: 20,),
               campoUsuario(),
+              const SizedBox(height: 10,),
               campoContrasena(),
               const SizedBox(height: 20,),
               botonEntrar(context)
