@@ -8,6 +8,7 @@ class Registrar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Mi App",
       home: Home(),
     );
@@ -49,10 +50,10 @@ Widget cuerpo(){
       key: _formKey,
       child: Center(
       child: Padding (
-        padding: const EdgeInsets.only(top: 80.0),
+        padding: const EdgeInsets.only(top: 70.0),
         child: Container (
           width: 275,
-          height: 520,
+          height: 580,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -74,7 +75,9 @@ Widget cuerpo(){
               const SizedBox(height: 10),
               campoDatosAdicionales(),
               const SizedBox(height: 20),
-              botonAdjuntarImagen()
+              botonAdjuntarImagen(),
+              const SizedBox(height: 10),
+              botonEnviarDatos(),
             ],
           ),
         ),
@@ -227,13 +230,67 @@ Widget campoDatosAdicionales(){
   );
 }
 
-
 Widget botonAdjuntarImagen(){
 
   return SizedBox(
-    width: 170,
-    height: 60,
-    child: TextButton(
+    width: 190,
+    height: 45,
+    child: TextButton.icon(
+    icon: const Icon(Icons.image, color: Color.fromARGB(255, 0, 0, 0),),
+    onPressed: (){
+        if(_formKey.currentState?.validate() ?? false){
+          //Avanza a la siguiente página
+
+        }
+    },
+    label: const Text("Adjuntar imagen", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
+    style: TextButton.styleFrom(
+      backgroundColor: const Color.fromARGB(255, 8, 135, 253),
+      padding: const EdgeInsets.all(13),
+      side: const BorderSide(width: 1, color: Colors.black)
+      ),
+    ),
+   /*  child: TextButton(
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 8, 135, 253),
+        //padding: EdgeInsets.symmetric(horizontal:100, vertical: 3),
+        padding: const EdgeInsets.all(20), //content padding inside button
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+      ),
+      onPressed: (){
+        if(_formKey.currentState?.validate() ?? false){
+
+        }
+      }, 
+      child: const Text("Adjuntar imagen", style: TextStyle(fontSize: 17, color: Colors.black),)
+      
+    ), */
+  );
+}
+
+
+Widget botonEnviarDatos(){
+
+  return SizedBox(
+    width: 190,
+    height: 45,
+    child: TextButton.icon(
+    icon: const Icon(Icons.arrow_forward, color: Color.fromARGB(255, 0, 0, 0),),
+    onPressed: (){
+        if(_formKey.currentState?.validate() ?? false){
+          //Avanza a la siguiente página
+
+        }
+    },
+    label: const Text("Enviar datos", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
+    style: TextButton.styleFrom(
+      backgroundColor: const Color.fromARGB(255, 253, 229, 8),
+      padding: const EdgeInsets.all(13),
+      side: const BorderSide(width: 1, color: Colors.black)
+      ),
+    ),
+    /* child: TextButton(
       style: TextButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: const Color.fromARGB(255, 253, 229, 8),
@@ -246,9 +303,9 @@ Widget botonAdjuntarImagen(){
 
         }
       }, 
-      child: const Text("Adjuntar imagen", style: TextStyle(fontSize: 17, color: Colors.black),)
+      child: const Text("Enviar datos", style: TextStyle(fontSize: 17, color: Colors.black),)
       
-    ),
+    ), */
   );
 }
 

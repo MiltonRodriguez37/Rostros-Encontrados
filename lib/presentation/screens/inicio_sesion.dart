@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/presentation/screens/ingreso.dart';
+import 'package:rostros_encontrados/presentation/screens/start_page.dart';
 
 class InicioSesion extends StatelessWidget {
   const InicioSesion({super.key});
@@ -7,6 +8,7 @@ class InicioSesion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Mi App",
       home: Home(),
     );
@@ -34,7 +36,9 @@ class _HomeState extends State<Home> {
 
 
 Widget cuerpo(BuildContext context){
-  return Container (
+  return Stack(
+  children: [
+  Container (
     decoration: const BoxDecoration(
       image: DecorationImage(image: AssetImage('assets/images/fondo.jpg'), //Imagen de fondo
       fit: BoxFit.cover
@@ -71,7 +75,13 @@ Widget cuerpo(BuildContext context){
       ),
     ),
     )
-  );
+  ),
+    Positioned(
+      top: 20, // Ajusta la posición del botón verticalmente según sea necesario
+      left: 20, // Ajusta la posición del botón horizontalmente según sea necesario
+      child: atras(),
+  ),
+  ]);
 
 }
 
@@ -111,6 +121,14 @@ Widget cuerpo(){
 }
 */
 
+Widget atras(){
+    return IconButton(onPressed: (){
+      Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const StartPage()),
+    );
+    }, iconSize: 40, icon: const Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 255, 255),), alignment: Alignment.topLeft,);
+    }
 
 Widget nombre(){
   return const Text("INICIO DE SESIÓN", style: TextStyle(color: Colors.black, fontSize: 22.0),);
@@ -163,9 +181,27 @@ Widget campoContrasena(){
 Widget botonEntrar(BuildContext context){
 
   return SizedBox(
-    width: 170,
-    height: 60,
-    child: TextButton(
+    width: 190,
+    height: 45,
+    child: TextButton.icon(
+    icon: const Icon(Icons.lock_open, color: Color.fromARGB(255, 0, 0, 0),),
+    onPressed: (){
+        if(_formKey.currentState?.validate() ?? false){
+          //Avanza a la siguiente página
+            Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Ingreso()),
+          );
+        }
+    },
+    label: const Text("Ingresar", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
+    style: TextButton.styleFrom(
+      backgroundColor: const Color.fromARGB(255, 253, 229, 8),
+      padding: const EdgeInsets.all(13),
+      side: const BorderSide(width: 1, color: Colors.black)
+      ),
+    ),
+   /*  child: TextButton(
       style: TextButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: const Color.fromARGB(255, 253, 229, 8),
@@ -184,7 +220,7 @@ Widget botonEntrar(BuildContext context){
       }, 
       child: const Text("Ingresar", style: TextStyle(fontSize: 17, color: Colors.black),)
       
-    ),
+    ), */
   );
 }
 //ctrl + espacio, ver opciones
