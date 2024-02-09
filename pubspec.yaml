@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.2
+  file_picker: ^4.0.3
   intl: ^0.17.0
   flutter:
     sdk: flutter

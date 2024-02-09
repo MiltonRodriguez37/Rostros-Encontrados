@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
 
 
 class Registrar extends StatelessWidget {
@@ -229,8 +230,37 @@ Widget campoDatosAdicionales(){
     ),
   );
 }
+Widget botonAdjuntarImagen() {
+  return SizedBox(
+    width: 200,
+    height: 50,
+    child: TextButton.icon(
+      icon: const Icon(Icons.image, color: Color.fromARGB(255, 0, 0, 0),),
+      onPressed: _adjuntarImagen,
+      label: Text(_imagenSeleccionada != null ? _imagenSeleccionada!.name : "Adjuntar imagen",
+          style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
+      style: TextButton.styleFrom(
+        backgroundColor: const Color.fromARGB(255, 8, 135, 253),
+        padding: const EdgeInsets.all(13),
+        side: const BorderSide(width: 1, color: Colors.black)
+      ),
+    ),
+  );
+}
 
-Widget botonAdjuntarImagen(){
+XFile? _imagenSeleccionada;
+
+void _adjuntarImagen() async {
+  final picker = ImagePicker();
+  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+  if (pickedFile != null) {
+    setState(() {
+      _imagenSeleccionada = pickedFile;
+    });
+  }
+}
+/* Widget botonAdjuntarImagen(){
 
   return SizedBox(
     width: 190,
@@ -267,7 +297,7 @@ Widget botonAdjuntarImagen(){
       
     ), */
   );
-}
+} */
 
 
 Widget botonEnviarDatos(){
