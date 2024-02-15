@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/presentation/screens/ingreso.dart';
 import 'package:rostros_encontrados/presentation/screens/start_page.dart';
+import 'package:crypto/crypto.dart' as crypto;
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 
 class RegistrarUsuario extends StatelessWidget {
@@ -26,7 +29,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nombreController = TextEditingController();
+  final TextEditingController _apellidosController = TextEditingController();
+  final TextEditingController _correoController = TextEditingController();
   final TextEditingController _contrasenaController = TextEditingController();
+  final TextEditingController _celularController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,6 +122,7 @@ Container campoNombre(){
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     height: 45,
     child: TextFormField(
+      controller: _nombreController,
       style: const TextStyle(fontSize: 16),
       decoration: const InputDecoration(
         hintText: "Nombre",
@@ -139,6 +147,7 @@ Container campoApellidos(){
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     height: 45,
     child: TextFormField(
+      controller: _apellidosController,
       style: const TextStyle(fontSize: 16),
       decoration: const InputDecoration(
          //contentPadding: EdgeInsets.symmetric(vertical: 15),
@@ -170,6 +179,7 @@ Widget campoCorreo(){
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     height: 45,
     child: TextFormField(
+      controller: _correoController,
       style: const TextStyle(fontSize: 16),
       decoration: const InputDecoration(
         hintText: "Correo electrónico",
@@ -272,6 +282,7 @@ Widget campoNumCelular(){
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     height: 45,
     child: TextFormField(
+      controller: _celularController,
       style: const TextStyle(fontSize: 16),
       decoration: const InputDecoration(
         hintText: "Número de celular",
@@ -321,6 +332,7 @@ Widget botonRegistrarse(){
     icon: const Icon(Icons.how_to_reg, color: Color.fromARGB(255, 0, 0, 0),),
     onPressed: (){
         if(_formKey.currentState?.validate() ?? false){
+          _enviarDatos();
           //Añadir a base de datos
             Navigator.push(
             context,
@@ -357,6 +369,49 @@ Widget botonRegistrarse(){
     ), */
   );
 }
+
+String encriptarContrasena(String contrasena) {
+  // Crea un objeto de hash SHA-256
+  var sha256 = crypto.sha256;
+  
+  // Convierte la contraseña a bytes UTF-8 y calcula su hash
+  var bytes = utf8.encode(contrasena);
+  var hash = sha256.convert(bytes);
+  
+  // Retorna el hash en formato hexadecimal
+  return hash.toString();
+}
+
+void _enviarDatos() async {
+  final url = Uri.parse('http://127.0.0.1:5000/registrar_usuario');
+  final contrasenaEncriptada = encriptarContrasena(_contrasenaController.text);
+  // Construye el cuerpo de la solicitud con los datos que deseas enviar
+  final body = jsonEncode({
+    'nombre': _nombreController.text,
+    'apellidos': _apellidosController.text,
+    'correo': _correoController.text,
+    'contrasena': contrasenaEncriptada,
+    'celular': _celularController.text,
+    // Agrega más campos según tus necesidades
+  });
+
+  // Realiza la solicitud HTTP POST
+  final response = await http.post(
+    url,
+    headers: {'Content-Type': 'application/json'},
+    body: body,
+  );
+
+  // Verifica el estado de la respuesta
+  if (response.statusCode == 200) {
+    // La solicitud fue exitosa
+    print('Datos enviados exitosamente');
+  } else {
+    // Hubo un error en la solicitud
+    print('Error al enviar datos: ${response.statusCode}');
+  }
+}
+
 }
 /* 
 Widget campoNombre(){

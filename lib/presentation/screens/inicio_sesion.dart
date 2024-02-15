@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/presentation/screens/ingreso.dart';
 import 'package:rostros_encontrados/presentation/screens/start_page.dart';
+import 'package:crypto/crypto.dart' as crypto;
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class InicioSesion extends StatelessWidget {
   const InicioSesion({super.key});
@@ -25,6 +28,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _usuarioController = TextEditingController();
+  final TextEditingController _contrasenaController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,6 +144,7 @@ Widget campoUsuario(){
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
     height: 50,
     child: TextFormField(
+      controller: _usuarioController,
       decoration: const InputDecoration(
         hintText: "Correo electrónico",
         fillColor: Color.fromARGB(255, 236, 236, 236),
@@ -160,6 +166,7 @@ Widget campoContrasena(){
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
     height: 50,
     child: TextFormField(
+      controller: _contrasenaController,
       obscureText: true,
       decoration: const InputDecoration(
         hintText: "Password",
@@ -188,6 +195,7 @@ Widget botonEntrar(BuildContext context){
     onPressed: (){
         if(_formKey.currentState?.validate() ?? false){
           //Avanza a la siguiente página
+            _enviarDatos();
             Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const Ingreso()),
@@ -222,6 +230,45 @@ Widget botonEntrar(BuildContext context){
       
     ), */
   );
+}
+
+String encriptarContrasena(String contrasena) {
+  // Crea un objeto de hash SHA-256
+  var sha256 = crypto.sha256;
+  
+  // Convierte la contraseña a bytes UTF-8 y calcula su hash
+  var bytes = utf8.encode(contrasena);
+  var hash = sha256.convert(bytes);
+  
+  // Retorna el hash en formato hexadecimal
+  return hash.toString();
+}
+
+void _enviarDatos() async {
+  final url = Uri.parse('http://127.0.0.1:5000/iniciar_sesion');
+  final contrasenaEncriptada = encriptarContrasena(_contrasenaController.text);
+  // Construye el cuerpo de la solicitud con los datos que deseas enviar
+  final body = jsonEncode({
+    'usuario': _usuarioController.text,
+    'contrasena': contrasenaEncriptada,
+    // Agrega más campos según tus necesidades
+  });
+
+  // Realiza la solicitud HTTP POST
+  final response = await http.post(
+    url,
+    headers: {'Content-Type': 'application/json'},
+    body: body,
+  );
+
+  // Verifica el estado de la respuesta
+  if (response.statusCode == 200) {
+    // La solicitud fue exitosa
+    print('Datos enviados exitosamente');
+  } else {
+    // Hubo un error en la solicitud
+    print('Error al enviar datos: ${response.statusCode}');
+  }
 }
 //ctrl + espacio, ver opciones
 }

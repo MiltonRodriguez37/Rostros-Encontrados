@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 
 class Registrar extends StatelessWidget {
@@ -28,6 +30,11 @@ class _HomeState extends State<Home> {
   DateTime? _fechaNacimiento;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _fechaController = TextEditingController();
+  final TextEditingController _nombreController = TextEditingController();
+  final TextEditingController _apellidosController = TextEditingController();
+  final TextEditingController _fechaLugarController = TextEditingController();
+  final TextEditingController _caracteristicasController = TextEditingController();
+  final TextEditingController _datosAdicionalesController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,6 +105,7 @@ Widget campoNombre(){
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     height: 45,
     child: TextFormField(
+      controller: _nombreController,
       decoration: const InputDecoration(
         hintText: "Nombre",
         fillColor: Color.fromARGB(255, 236, 236, 236),
@@ -121,6 +129,7 @@ Widget campoApellidos(){
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     height: 45,
     child: TextFormField(
+      controller: _apellidosController,
       decoration: const InputDecoration(
          //contentPadding: EdgeInsets.symmetric(vertical: 15),
         hintText: "Apellidos",
@@ -181,6 +190,7 @@ Widget campoFechaLugar(){
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     height: 45,
     child: TextFormField(
+      controller: _fechaLugarController,
       decoration: const InputDecoration(
         hintText: "Fecha y lugar último avistamiento",
         fillColor: Color.fromARGB(255, 236, 236, 236),
@@ -202,6 +212,7 @@ Widget campoCaracteristicas(){
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     height: 45,
     child: TextFormField(
+      controller: _caracteristicasController,
       decoration: const InputDecoration(
         hintText: "Características particulares",
         fillColor: Color.fromARGB(255, 236, 236, 236),
@@ -221,8 +232,9 @@ Widget campoCaracteristicas(){
 Widget campoDatosAdicionales(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    child: const TextField(
-      decoration: InputDecoration(
+    child: TextFormField(
+      controller: _datosAdicionalesController,
+      decoration: const InputDecoration(
         hintText: "Datos adicionales",
         fillColor: Color.fromARGB(255, 236, 236, 236),
         filled: true
@@ -310,7 +322,7 @@ Widget botonEnviarDatos(){
     onPressed: (){
         if(_formKey.currentState?.validate() ?? false){
           //Avanza a la siguiente página
-
+          _enviarDatos();
         }
     },
     label: const Text("Enviar datos", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
@@ -339,6 +351,38 @@ Widget botonEnviarDatos(){
   );
 }
 
+void _enviarDatos() async {
+  final url = Uri.parse('http://127.0.0.1:5000/registrar_persona');
+  final fechaNacimientoString = _fechaNacimiento?.toIso8601String().substring(0, 10);
+  // Construye el cuerpo de la solicitud con los datos que deseas enviar
+  final body = jsonEncode({
+    'nombre': _nombreController.text,
+    'apellidos': _apellidosController.text,
+    'fechaNacimiento': fechaNacimientoString,
+    'fechaLugar': _fechaLugarController.text,
+    'caracteristicas': _caracteristicasController.text,
+    'datosAdicionales': _datosAdicionalesController.text,
+    // Agrega más campos según tus necesidades
+  });
+
+  // Realiza la solicitud HTTP POST
+  final response = await http.post(
+    url,
+    headers: {'Content-Type': 'application/json'},
+    body: body,
+  );
+
+  // Verifica el estado de la respuesta
+  if (response.statusCode == 200) {
+    // La solicitud fue exitosa
+    print('Datos enviados exitosamente');
+  } else {
+    // Hubo un error en la solicitud
+    print('Error al enviar datos: ${response.statusCode}');
+  }
+}
+
 //https://mundocursos-online.translate.goog/como-poner-una-imagen-en-flutter/?_x_tr_sl=es&_x_tr_tl=de&_x_tr_hl=de&_x_tr_pto=sc
 
 }
+

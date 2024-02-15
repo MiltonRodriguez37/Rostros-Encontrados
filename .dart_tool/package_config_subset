@@ -22,6 +22,10 @@ cross_file
 2.17
 file:///C:/Users/milto/AppData/Local/Pub/Cache/hosted/pub.dev/cross_file-0.3.3+4/
 file:///C:/Users/milto/AppData/Local/Pub/Cache/hosted/pub.dev/cross_file-0.3.3+4/lib/
+crypto
+2.19
+file:///C:/Users/milto/AppData/Local/Pub/Cache/hosted/pub.dev/crypto-3.0.3/
+file:///C:/Users/milto/AppData/Local/Pub/Cache/hosted/pub.dev/crypto-3.0.3/lib/
 cupertino_icons
 2.12
 file:///C:/Users/milto/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.5/
@@ -63,9 +67,9 @@ flutter_plugin_android_lifecycle
 file:///C:/Users/milto/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.15/
 file:///C:/Users/milto/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.15/lib/
 http
-3.0
-file:///C:/Users/milto/AppData/Local/Pub/Cache/hosted/pub.dev/http-1.1.0/
-file:///C:/Users/milto/AppData/Local/Pub/Cache/hosted/pub.dev/http-1.1.0/lib/
+2.19
+file:///C:/Users/milto/AppData/Local/Pub/Cache/hosted/pub.dev/http-0.13.6/
+file:///C:/Users/milto/AppData/Local/Pub/Cache/hosted/pub.dev/http-0.13.6/lib/
 http_parser
 2.12
 file:///C:/Users/milto/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.0.2/
