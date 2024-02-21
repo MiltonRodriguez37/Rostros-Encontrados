@@ -383,7 +383,7 @@ String encriptarContrasena(String contrasena) {
 }
 
 void _enviarDatos() async {
-  final url = Uri.parse('http://127.0.0.1:5000/registrar_usuario');
+  final url = Uri.parse('http://rostrosencontrados.pythonanywhere.com/registrar_usuario');
   final contrasenaEncriptada = encriptarContrasena(_contrasenaController.text);
   // Construye el cuerpo de la solicitud con los datos que deseas enviar
   final body = jsonEncode({

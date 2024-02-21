@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:rostros_encontrados/shared/services/upload_picture_firebase.dart';
+/* import 'package:firebase_core/firebase_core.dart'; */
 
+/* Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: const FirebaseOptions(
+      apiKey: 'apiKey', 
+      appId: 'appId', 
+      messagingSenderId: 'messagingSenderId', 
+      projectId: 'projectId',
+      storageBucket: "gs://rostros-encontrados.appspot.com"));
+} */
 
 class Registrar extends StatelessWidget {
   const Registrar({super.key});
@@ -249,7 +260,7 @@ Widget botonAdjuntarImagen() {
     child: TextButton.icon(
       icon: const Icon(Icons.image, color: Color.fromARGB(255, 0, 0, 0),),
       onPressed: _adjuntarImagen,
-      label: Text(_imagenSeleccionada != null ? _imagenSeleccionada!.name : "Adjuntar imagen",
+      label: Text(_imagenSeleccionada != null ? _imagenSeleccionada.files.single.name : "Adjuntar imagen",
           style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
       style: TextButton.styleFrom(
         backgroundColor: const Color.fromARGB(255, 8, 135, 253),
@@ -260,16 +271,21 @@ Widget botonAdjuntarImagen() {
   );
 }
 
-XFile? _imagenSeleccionada;
+var _imagenSeleccionada;
 
 void _adjuntarImagen() async {
-  final picker = ImagePicker();
-  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  final results = await FilePicker.platform.pickFiles();
 
-  if (pickedFile != null) {
+  if (results != null) {
     setState(() {
-      _imagenSeleccionada = pickedFile;
+      _imagenSeleccionada = results;
     });
+  } else{
+    ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Imagen no seleccionada'),
+                    ),
+                  );
+                  return null;
   }
 }
 /* Widget botonAdjuntarImagen(){
@@ -313,7 +329,7 @@ void _adjuntarImagen() async {
 
 
 Widget botonEnviarDatos(){
-
+  Storage storage = Storage();
   return SizedBox(
     width: 190,
     height: 45,
@@ -322,7 +338,10 @@ Widget botonEnviarDatos(){
     onPressed: (){
         if(_formKey.currentState?.validate() ?? false){
           //Avanza a la siguiente página
-          _enviarDatos();
+          /* _enviarDatos(); */
+          final nombreImagen = _imagenSeleccionada.files.single.name;
+          final rutaImagen = _imagenSeleccionada.files.single.bytes;
+          storage.subirArchivo(rutaImagen, nombreImagen).then((value) => print('Chido'));
         }
     },
     label: const Text("Enviar datos", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
@@ -352,7 +371,7 @@ Widget botonEnviarDatos(){
 }
 
 void _enviarDatos() async {
-  final url = Uri.parse('http://127.0.0.1:5000/registrar_persona');
+  final url = Uri.parse('http://rostrosencontrados.pythonanywhere.com/registrar_persona');
   final fechaNacimientoString = _fechaNacimiento?.toIso8601String().substring(0, 10);
   // Construye el cuerpo de la solicitud con los datos que deseas enviar
   final body = jsonEncode({
