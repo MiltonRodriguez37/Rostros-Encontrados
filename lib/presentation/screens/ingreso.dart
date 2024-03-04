@@ -4,26 +4,24 @@ import 'package:rostros_encontrados/presentation/screens/inicio.dart';
 import 'package:rostros_encontrados/presentation/screens/registro_persona.dart';
 
 
+
 class Ingreso extends StatefulWidget {
   const Ingreso({super.key});
 
   @override
-  State<Ingreso> createState() => _MyAppState();
+  State<Ingreso> createState() => _IngresoState();
 }
 
-class _MyAppState extends State<Ingreso> {
+class _IngresoState extends State<Ingreso> {
   // This widget is the root of your application.
 
   int pagina_actual = 1;
 
-  List<Widget> paginas = [Registrar(), Inicio(), Camara()];
+  final List<Widget> paginas = [Registrar(), Inicio(), Camara()];
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Rostros Encontrados',
-      home: Scaffold(
+    return Scaffold(
         body: paginas[pagina_actual],
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index){
@@ -39,7 +37,6 @@ class _MyAppState extends State<Ingreso> {
             BottomNavigationBarItem(icon: Icon(Icons.camera_alt_outlined), label: "Captura")
           ],
         ),
-      ),
-    );
+      );
   }
 }

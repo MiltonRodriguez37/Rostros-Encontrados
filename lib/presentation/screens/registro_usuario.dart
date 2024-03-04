@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:rostros_encontrados/presentation/screens/ingreso.dart';
 import 'package:rostros_encontrados/presentation/screens/start_page.dart';
 import 'package:crypto/crypto.dart' as crypto;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:rostros_encontrados/presentation/screens/inicio_sesion.dart';
 
 
 class RegistrarUsuario extends StatelessWidget {
   const RegistrarUsuario({super.key});
 
-  @override
+/*   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Mi App",
       home: Home(),
     );
+  } */
+    @override
+  Widget build(BuildContext context) {
+    return const Home();
   }
 }
 
 
 class Home extends StatefulWidget {
   const Home({super.key});
+  
 
   @override
   State<Home> createState() => _HomeState();
@@ -37,7 +42,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: cuerpo()
       
     );
@@ -170,7 +174,7 @@ Container campoApellidos(){
 }
 
 bool _esNombreApellidoValido(String nombre){
-  final RegExp regex = RegExp(r'^[a-zA-Z ]{2,}$');
+  final RegExp regex = RegExp(r'^[a-zA-ZÍÚÉÁÓíúéáóñÑÄÜÖËÏäëïöü ]{2,}$');
   return regex.hasMatch(nombre);
 }
 
@@ -227,7 +231,7 @@ Widget campoContrasena(){
 String? _obtenerMensajeErrorContrasena(String contrasena) {
   // Validar la longitud mínima
   if (contrasena.length < 8) {
-    return 'Debe tener al menos 8 caracteres.';
+    return 'Debe tener mínimo 8 caracteres.';
   }
 
   // Validar si contiene al menos una letra mayúscula
@@ -242,7 +246,7 @@ String? _obtenerMensajeErrorContrasena(String contrasena) {
 
   // Validar si contiene al menos un dígito
   if (!contrasena.contains(RegExp(r'[0-9]'))) {
-    return 'Debe contener al menos un dígito.';
+    return 'Debe contener mínimo un dígito.';
   }
 
   // La contraseña cumple con todos los criterios de validación
@@ -334,10 +338,6 @@ Widget botonRegistrarse(){
         if(_formKey.currentState?.validate() ?? false){
           _enviarDatos();
           //Añadir a base de datos
-            Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const Ingreso()),
-          );
         }
     },
     label: const Text("Registrarse", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
@@ -382,6 +382,7 @@ String encriptarContrasena(String contrasena) {
   return hash.toString();
 }
 
+
 void _enviarDatos() async {
   final url = Uri.parse('http://rostrosencontrados.pythonanywhere.com/registrar_usuario');
   final contrasenaEncriptada = encriptarContrasena(_contrasenaController.text);
@@ -406,12 +407,55 @@ void _enviarDatos() async {
   if (response.statusCode == 200) {
     // La solicitud fue exitosa
     print('Datos enviados exitosamente');
+    _mostrarMensajeExito(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const InicioSesion()),
+    );
   } else {
     // Hubo un error en la solicitud
     print('Error al enviar datos: ${response.statusCode}');
+    _mostrarMensajeError(context);
   }
 }
-
+void _mostrarMensajeExito(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('¡Éxito!'),
+        content: Text('Registro de usuario exitoso.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Aceptar'),
+          ),
+        ],
+      );
+    },
+  );
+}
+void _mostrarMensajeError(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('¡Error!'),
+        content: Text('Ocurrió un error inesperado, intente de nuevo.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Aceptar'),
+          ),
+        ],
+      );
+    },
+  );
+}
 }
 /* 
 Widget campoNombre(){

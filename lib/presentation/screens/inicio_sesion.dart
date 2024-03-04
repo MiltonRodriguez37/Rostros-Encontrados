@@ -4,11 +4,14 @@ import 'package:rostros_encontrados/presentation/screens/start_page.dart';
 import 'package:crypto/crypto.dart' as crypto;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:rostros_encontrados/presentation/screens/session_provider.dart';
+import 'package:rostros_encontrados/presentation/screens/user.dart';
 
 class InicioSesion extends StatelessWidget {
   const InicioSesion({super.key});
 
-  @override
+@override
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -16,6 +19,11 @@ class InicioSesion extends StatelessWidget {
       home: Home(),
     );
   }
+  
+ /*  @override
+  Widget build(BuildContext context) {
+    return const Home();
+  } */
 }
 
 
@@ -195,11 +203,7 @@ Widget botonEntrar(BuildContext context){
     onPressed: (){
         if(_formKey.currentState?.validate() ?? false){
           //Avanza a la siguiente página
-            /* _enviarDatos(); */
-            Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const Ingreso()),
-          );
+             _enviarDatos();
         }
     },
     label: const Text("Ingresar", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
@@ -262,12 +266,73 @@ void _enviarDatos() async {
   );
 
   // Verifica el estado de la respuesta
+  if (response.statusCode == 500){
+    _mostrarMensajeError(context,'Error en el servidor');
+  }
   if (response.statusCode == 200) {
     // La solicitud fue exitosa
-    print('Datos enviados exitosamente');
+    final user = await obtenerDatosUsuario(_usuarioController.text);
+    if (user != null) {
+      // Obtén una referencia al SessionProvider del contexto actual
+      final sessionProvider = Provider.of<SessionProvider>(context, listen: false);
+      // Establece el usuario en el SessionProvider
+      sessionProvider.setUser(User(
+        correo: user['correo'],
+        nombre: user['nombre_usuario'],
+        apellido: user['apellido_usuario'],
+        id: user['id_usuario'],
+        telefono: user['telefono'],
+      ));
+      // El usuario fue encontrado, puedes navegar a la pantalla de Ingreso
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Ingreso()),
+      );
+    } else {
+      // Maneja el caso en que no se pueda obtener el usuario
+      _mostrarMensajeError(context,'No se encontró al usuario en la Base de Datos');
+    }
   } else {
     // Hubo un error en la solicitud
+    final jsonResponse = jsonDecode(response.body);
+    final error = jsonResponse['error'];
+    _mostrarMensajeError(context,error);
     print('Error al enviar datos: ${response.statusCode}');
+
+  }
+}
+
+void _mostrarMensajeError(BuildContext context,error) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('¡Error!'),
+        content: Text(error),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Aceptar'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<Map<String, dynamic>?> obtenerDatosUsuario(String correo) async {
+  final url = Uri.parse('http://rostrosencontrados.pythonanywhere.com/obtener_usuario?correo=$correo');
+  final response = await http.get(url);
+
+  if (response.statusCode == 200) {
+    // La solicitud fue exitosa
+    return json.decode(response.body);
+  } else {
+    // Hubo un error en la solicitud
+    print('Error al obtener datos del usuario: ${response.statusCode}');
+    return null;
   }
 }
 //ctrl + espacio, ver opciones

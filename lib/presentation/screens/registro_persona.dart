@@ -21,11 +21,7 @@ class Registrar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Mi App",
-      home: Home(),
-    );
+    return const Home();
   }
 }
 
@@ -162,7 +158,7 @@ Widget campoApellidos(){
 }
 
 bool _esNombreApellidoValido(String nombre){
-  final RegExp regex = RegExp(r'^[a-zA-Z ]{2,}$');
+  final RegExp regex = RegExp(r'^[a-zA-ZÍÚÉÁÓíúéáóñÑÄÜÖËÏäëïöü ]{2,}$');
   return regex.hasMatch(nombre);
 }
 

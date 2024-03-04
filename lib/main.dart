@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/presentation/screens/start_page.dart';
+import 'package:provider/provider.dart';
+import 'package:rostros_encontrados/presentation/screens/session_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:rostros_encontrados/presentation/screens/inicio_sesion.dart';
+import 'package:rostros_encontrados/presentation/screens/registro_usuario.dart';
 //import './presentation/screens/start_page.dart';
 //import './principal.dart';
 /* void main(){
@@ -18,18 +22,27 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget{
-  const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SessionProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+  routes: {
+    '/inicio_sesion': (context) => const InicioSesion(), // Pantalla de inicio de sesión
+    '/registro_usuario': (context) => const RegistrarUsuario(), // Pantalla de registro de usuario
+    // Agrega aquí más rutas según sea necesario
+  },
+        theme: ThemeData(
+          useMaterial3: true,
+        ),
+        home: const StartPage(),
       ),
-      home: const StartPage()
     );
   }
-
 }
