@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/presentation/screens/ajustes_usuario.dart';
+import 'package:provider/provider.dart';
+import 'package:rostros_encontrados/presentation/screens/session_provider.dart';
+import 'package:rostros_encontrados/presentation/screens/user.dart';
 
 class Inicio extends StatelessWidget {
+  final User? usuario;
+  Inicio({Key? key, this.usuario}) : super(key: key);
   final List<String> registros = ['Oscar Gutiérrez Pérez', 'Ian Horcasitas Pérez', 'Milton Rodriguez González'];
 
   @override
@@ -21,16 +26,18 @@ class Inicio extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const Text(
-                  "Tus Registros",
-                  style: TextStyle(color: Colors.black, fontSize: 30.0, decoration: TextDecoration.none,),
+                Text(
+                  "Bienvenido, ${usuario!.nombre}",
+                  style: const TextStyle(color: Colors.black, fontSize: 20.0, decoration: TextDecoration.none,),
                   textAlign: TextAlign.left,
                 ),
                 IconButton(
                   onPressed: () {
+                  final sessionProvider = Provider.of<SessionProvider>(context, listen: false);
+                  final user = sessionProvider.user;
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const AjustesUsuario()),
+                      MaterialPageRoute(builder: (context) => AjustesUsuario(user:user)),
                     );
                   },
                   iconSize: 50,

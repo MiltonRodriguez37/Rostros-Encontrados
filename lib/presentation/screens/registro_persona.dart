@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:rostros_encontrados/shared/services/upload_picture_firebase.dart';
+import 'package:rostros_encontrados/presentation/screens/user.dart';
+
 /* import 'package:firebase_core/firebase_core.dart'; */
 
 /* Future<void> main() async {
@@ -17,17 +19,19 @@ import 'package:rostros_encontrados/shared/services/upload_picture_firebase.dart
 } */
 
 class Registrar extends StatelessWidget {
-  const Registrar({super.key});
+  final User? usuario;
+  const Registrar({Key? key, this.usuario}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Home();
+    return Home(usuario: usuario);
   }
 }
 
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final User? usuario;
+  const Home({Key? key, this.usuario}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -45,7 +49,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      
       body: cuerpo()
       
     );
@@ -334,7 +338,7 @@ Widget botonEnviarDatos(){
     onPressed: (){
         if(_formKey.currentState?.validate() ?? false){
           //Avanza a la siguiente página
-          /* _enviarDatos(); */
+          _enviarDatos();
           final nombreImagen = _imagenSeleccionada.files.single.name;
           final rutaImagen = _imagenSeleccionada.files.single.bytes;
           storage.subirArchivo(rutaImagen, nombreImagen).then((value) => print('Chido'));
@@ -369,7 +373,6 @@ Widget botonEnviarDatos(){
 void _enviarDatos() async {
   final url = Uri.parse('http://rostrosencontrados.pythonanywhere.com/registrar_persona');
   final fechaNacimientoString = _fechaNacimiento?.toIso8601String().substring(0, 10);
-  // Construye el cuerpo de la solicitud con los datos que deseas enviar
   final body = jsonEncode({
     'nombre': _nombreController.text,
     'apellidos': _apellidosController.text,
@@ -377,7 +380,7 @@ void _enviarDatos() async {
     'fechaLugar': _fechaLugarController.text,
     'caracteristicas': _caracteristicasController.text,
     'datosAdicionales': _datosAdicionalesController.text,
-    // Agrega más campos según tus necesidades
+    'idUsuario': widget.usuario!.id
   });
 
   // Realiza la solicitud HTTP POST

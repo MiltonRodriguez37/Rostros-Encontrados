@@ -294,10 +294,14 @@ void _enviarDatos() async {
     }
   } else {
     // Hubo un error en la solicitud
+    print('Error al enviar datos: ${response.statusCode}');
+    if(response.statusCode == 500){
+      _mostrarMensajeError(context,'Error en el servidor');
+      print('Error al enviar datos al servidor: ${response.statusCode}');
+    }
     final jsonResponse = jsonDecode(response.body);
     final error = jsonResponse['error'];
     _mostrarMensajeError(context,error);
-    print('Error al enviar datos: ${response.statusCode}');
 
   }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/shared/services/camera_gallery_service_impl.dart';
+import 'package:rostros_encontrados/presentation/screens/user.dart';
 
 class Camara extends StatelessWidget {
-  const Camara({super.key});
+    final User? usuario;
+  const Camara({super.key,this.usuario});
   @override
   Widget build(BuildContext context) {
     return Center(

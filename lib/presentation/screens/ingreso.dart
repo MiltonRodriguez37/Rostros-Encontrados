@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/presentation/screens/camara.dart';
 import 'package:rostros_encontrados/presentation/screens/inicio.dart';
 import 'package:rostros_encontrados/presentation/screens/registro_persona.dart';
+import 'package:provider/provider.dart';
+import 'package:rostros_encontrados/presentation/screens/session_provider.dart';
+import 'package:rostros_encontrados/presentation/screens/user.dart';
+
 
 
 
@@ -16,11 +20,13 @@ class _IngresoState extends State<Ingreso> {
   // This widget is the root of your application.
 
   int pagina_actual = 1;
-
-  final List<Widget> paginas = [Registrar(), Inicio(), Camara()];
+  late User? usuario;
 
   @override
   Widget build(BuildContext context) {
+    final sessionProvider = Provider.of<SessionProvider>(context);
+    usuario = sessionProvider.user;
+      final List<Widget> paginas = [Registrar(usuario:usuario), Inicio(usuario: usuario), Camara(usuario: usuario)];
     return Scaffold(
         body: paginas[pagina_actual],
         bottomNavigationBar: BottomNavigationBar(
@@ -37,6 +43,6 @@ class _IngresoState extends State<Ingreso> {
             BottomNavigationBarItem(icon: Icon(Icons.camera_alt_outlined), label: "Captura")
           ],
         ),
-      );
+    );
   }
 }

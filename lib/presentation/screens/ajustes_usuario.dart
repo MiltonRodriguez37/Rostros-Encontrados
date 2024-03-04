@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:rostros_encontrados/presentation/screens/user.dart';
+import 'package:rostros_encontrados/presentation/screens/session_provider.dart';
 import 'package:rostros_encontrados/presentation/screens/start_page.dart';
 import 'package:rostros_encontrados/presentation/screens/ingreso.dart';
+import 'package:provider/provider.dart';
 
 class AjustesUsuario extends StatelessWidget {
-  const AjustesUsuario({Key? key});
+  final User? user;
+  const AjustesUsuario({Key? key, required this.user}) : super(key:key);
 
   @override
   Widget build(BuildContext context) {
-    // Obtener el usuario actual utilizando Provider
-    final user = Provider.of<User>(context);
+    final sessionProvider = Provider.of<SessionProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -27,7 +28,7 @@ class AjustesUsuario extends StatelessWidget {
       ),
       body: Center(
         child: Container(
-          height: 500.0,
+          height: 400.0,
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 250, 249, 249),
@@ -39,7 +40,7 @@ class AjustesUsuario extends StatelessWidget {
             vertical: 10,
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
                 "Detalles del usuario:",
@@ -48,20 +49,28 @@ class AjustesUsuario extends StatelessWidget {
                   color: Color.fromARGB(255, 0, 0, 0),
                   decoration: TextDecoration.none,
                 ),
+                textAlign: TextAlign.start,
               ),
               const SizedBox(
                 height: 20,
               ),
               Text(
-                "Nombre: ${user.nombre}",
+                "Nombre: ${user!.nombre} ${user!.apellido}",
                 style: const TextStyle(fontSize: 20),
+                textAlign: TextAlign.start,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 7),
               Text(
-                "Correo electrónico: ${user.correo}",
+                "Correo electrónico: ${user!.correo}",
                 style: const TextStyle(fontSize: 20),
+                textAlign: TextAlign.start,
               ),
-              // Agrega más detalles del usuario según tus necesidades
+              const SizedBox(height: 7),
+              Text(
+                "Teléfono: ${user!.telefono}",
+                style: const TextStyle(fontSize: 20),
+                textAlign: TextAlign.start,
+              ),
               const SizedBox(height: 20),
               SizedBox(
                 height: 55,
@@ -93,6 +102,7 @@ class AjustesUsuario extends StatelessWidget {
                     color: Color.fromARGB(255, 0, 0, 0),
                   ),
                   onPressed: () {
+                    sessionProvider.clearUser();
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const StartPage()),
