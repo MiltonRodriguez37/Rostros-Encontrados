@@ -11,7 +11,7 @@ class Storage {
     var file = filePath;
 
     try {
-      await storage.ref('prueba/$fileName').putData(file);
+      await storage.ref('desaparecidos/$fileName.png').putData(file);
     } on firebase_core.FirebaseException catch (e) {
       print(e);
       }

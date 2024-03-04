@@ -28,7 +28,7 @@ class AjustesUsuario extends StatelessWidget {
       ),
       body: Center(
         child: Container(
-          height: 400.0,
+          height: 500.0,
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 250, 249, 249),
@@ -102,11 +102,11 @@ class AjustesUsuario extends StatelessWidget {
                     color: Color.fromARGB(255, 0, 0, 0),
                   ),
                   onPressed: () {
-                    sessionProvider.clearUser();
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const StartPage()),
                     );
+                    sessionProvider.clearUser();
                   },
                   label: const Text(
                     "Cerrar sesión",

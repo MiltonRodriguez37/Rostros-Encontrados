@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:rostros_encontrados/presentation/screens/ingreso.dart';
 import 'package:rostros_encontrados/shared/services/upload_picture_firebase.dart';
 import 'package:rostros_encontrados/presentation/screens/user.dart';
 
@@ -335,13 +336,30 @@ Widget botonEnviarDatos(){
     height: 45,
     child: TextButton.icon(
     icon: const Icon(Icons.arrow_forward, color: Color.fromARGB(255, 0, 0, 0),),
-    onPressed: (){
+    onPressed: () async{
         if(_formKey.currentState?.validate() ?? false){
           //Avanza a la siguiente página
-          _enviarDatos();
-          final nombreImagen = _imagenSeleccionada.files.single.name;
-          final rutaImagen = _imagenSeleccionada.files.single.bytes;
-          storage.subirArchivo(rutaImagen, nombreImagen).then((value) => print('Chido'));
+            try {
+              _enviarDatos();
+
+              final url = Uri.parse('http://rostrosencontrados.pythonanywhere.com/registrar_persona');
+              final response = await http.get(url);
+              final decoded = json.decode(response.body);
+              
+              final nombreImagen = _imagenSeleccionada.files.single.bytes;
+              final rutaImagen = (int.parse(decoded['id'])+1).toString();
+              print('Hasta aquí todo bien');
+              storage.subirArchivo(nombreImagen, rutaImagen).then((value) => print('Imagen subida'));
+              _mostrarMensajeExito(context);
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Ingreso()),
+            );
+              }
+            catch (e) {
+                    print('No se completó el registro');
+                    _mostrarMensajeError(context);
+                  }
         }
     },
     label: const Text("Enviar datos", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
@@ -398,6 +416,45 @@ void _enviarDatos() async {
     // Hubo un error en la solicitud
     print('Error al enviar datos: ${response.statusCode}');
   }
+}
+
+void _mostrarMensajeExito(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('¡Éxito!'),
+        content: Text('Registro exitoso.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Aceptar'),
+          ),
+        ],
+      );
+    },
+  );
+}
+void _mostrarMensajeError(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('¡Error!'),
+        content: Text('No se completó el registro.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Aceptar'),
+          ),
+        ],
+      );
+    },
+  );
 }
 
 //https://mundocursos-online.translate.goog/como-poner-una-imagen-en-flutter/?_x_tr_sl=es&_x_tr_tl=de&_x_tr_hl=de&_x_tr_pto=sc
