@@ -2,28 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/presentation/screens/camara.dart';
 import 'package:rostros_encontrados/presentation/screens/inicio.dart';
 import 'package:rostros_encontrados/presentation/screens/registro_persona.dart';
+import 'package:provider/provider.dart';
+import 'package:rostros_encontrados/presentation/screens/session_provider.dart';
+import 'package:rostros_encontrados/presentation/screens/user.dart';
+
+
 
 
 class Ingreso extends StatefulWidget {
   const Ingreso({super.key});
 
   @override
-  State<Ingreso> createState() => _MyAppState();
+  State<Ingreso> createState() => _IngresoState();
 }
 
-class _MyAppState extends State<Ingreso> {
+class _IngresoState extends State<Ingreso> {
   // This widget is the root of your application.
 
   int pagina_actual = 1;
-
-  List<Widget> paginas = [Registrar(), Inicio(), Camara()];
+  late User? usuario;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Rostros Encontrados',
-      home: Scaffold(
+    final sessionProvider = Provider.of<SessionProvider>(context);
+    usuario = sessionProvider.user;
+      final List<Widget> paginas = [Registrar(usuario:usuario), Inicio(usuario: usuario), Camara(usuario: usuario)];
+    return Scaffold(
         body: paginas[pagina_actual],
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index){
@@ -36,10 +40,9 @@ class _MyAppState extends State<Ingreso> {
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.notes), label: "Registra"),
             BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Inicio"),
-            BottomNavigationBarItem(icon: Icon(Icons.camera_alt_outlined), label: "Captura")
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Buscar")
           ],
         ),
-      ),
     );
   }
 }
