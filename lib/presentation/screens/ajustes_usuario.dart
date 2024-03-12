@@ -71,7 +71,7 @@ class AjustesUsuario extends StatelessWidget {
                 style: const TextStyle(fontSize: 20),
                 textAlign: TextAlign.start,
               ),
-              const SizedBox(height: 20),
+/*               const SizedBox(height: 20),
               SizedBox(
                 height: 55,
                 width: 300,
@@ -91,7 +91,7 @@ class AjustesUsuario extends StatelessWidget {
                     side: const BorderSide(width: 1, color: Colors.black),
                   ),
                 ),
-              ),
+              ), */
               const SizedBox(height: 20),
               SizedBox(
                 height: 55,

@@ -201,10 +201,10 @@ Widget botonEntrar(BuildContext context){
     child: TextButton.icon(
     icon: const Icon(Icons.lock_open, color: Color.fromARGB(255, 0, 0, 0),),
     onPressed: (){
-        if(_formKey.currentState?.validate() ?? false){
-          //Avanza a la siguiente página
-             _enviarDatos();
-        }
+      if (_formKey.currentState?.validate() ?? false) {
+        // Avanza a la siguiente página
+        _enviarDatos();
+      }
     },
     label: const Text("Ingresar", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
     style: TextButton.styleFrom(
@@ -266,9 +266,6 @@ void _enviarDatos() async {
   );
 
   // Verifica el estado de la respuesta
-  if (response.statusCode == 500){
-    _mostrarMensajeError(context,'Error en el servidor');
-  }
   if (response.statusCode == 200) {
     // La solicitud fue exitosa
     final user = await obtenerDatosUsuario(_usuarioController.text);
@@ -292,16 +289,17 @@ void _enviarDatos() async {
       // Maneja el caso en que no se pueda obtener el usuario
       _mostrarMensajeError(context,'No se encontró al usuario en la Base de Datos');
     }
-  } else {
+  } else if(response.statusCode == 401){
+    print('Error al enviar datos: ${response.statusCode}');
+    _mostrarMensajeError(context,'Contraseña incorrecta');
+  } else if(response.statusCode == 404){
+    print('Error al enviar datos: ${response.statusCode}');
+    _mostrarMensajeError(context,'Usuario no encontrado');
+  }
+  else {
     // Hubo un error en la solicitud
     print('Error al enviar datos: ${response.statusCode}');
-    if(response.statusCode == 500){
-      _mostrarMensajeError(context,'Error en el servidor');
-      print('Error al enviar datos al servidor: ${response.statusCode}');
-    }
-    final jsonResponse = jsonDecode(response.body);
-    final error = jsonResponse['error'];
-    _mostrarMensajeError(context,error);
+    _mostrarMensajeError(context,'Error en el servidor');
 
   }
 }

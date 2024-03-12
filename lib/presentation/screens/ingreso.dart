@@ -40,7 +40,7 @@ class _IngresoState extends State<Ingreso> {
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.notes), label: "Registra"),
             BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Inicio"),
-            BottomNavigationBarItem(icon: Icon(Icons.camera_alt_outlined), label: "Captura")
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Buscar")
           ],
         ),
     );

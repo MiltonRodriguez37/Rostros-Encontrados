@@ -17,7 +17,7 @@ class RegistrarUsuario extends StatelessWidget {
       home: Home(),
     );
   } */
-    @override
+  @override
   Widget build(BuildContext context) {
     return const Home();
   }
@@ -407,15 +407,20 @@ void _enviarDatos() async {
   if (response.statusCode == 200) {
     // La solicitud fue exitosa
     print('Datos enviados exitosamente');
-    _mostrarMensajeExito(context);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const InicioSesion()),
     );
-  } else {
+    _mostrarMensajeExito(context);
+  }
+  else if(response.statusCode == 402){
+        print('Error al enviar datos: ${response.statusCode}');
+    _mostrarMensajeError(context,'Correo ya registrado');
+  }
+    else {
     // Hubo un error en la solicitud
     print('Error al enviar datos: ${response.statusCode}');
-    _mostrarMensajeError(context);
+    _mostrarMensajeError(context,'Error en el servidor');
   }
 }
 void _mostrarMensajeExito(BuildContext context) {
@@ -437,13 +442,13 @@ void _mostrarMensajeExito(BuildContext context) {
     },
   );
 }
-void _mostrarMensajeError(BuildContext context) {
+void _mostrarMensajeError(BuildContext context,error) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('¡Error!'),
-        content: Text('Ocurrió un error inesperado, intente de nuevo.'),
+        content: Text(error),
         actions: <Widget>[
           TextButton(
             onPressed: () {
