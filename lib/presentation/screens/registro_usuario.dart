@@ -58,14 +58,14 @@ Widget cuerpo(){
       ) 
     ),
     
-  child: Form(
+  child: SingleChildScrollView(
+    child: Form(
     key: _formKey,
     child: Center(
       child: Padding (
-        padding: const EdgeInsets.only(top: 80.0),
+        padding: const EdgeInsets.only(top: 120.0,bottom:230.0),
         child: Container (
-          width: 275,
-            height: 525,
+          width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -73,6 +73,7 @@ Widget cuerpo(){
           child: Column (
             mainAxisAlignment: MainAxisAlignment.center, //Teniendo la columna, se debe centrar dentro de la columna
             children: <Widget>[
+              const SizedBox(height: 20,),
               nombre(),
               const SizedBox(height: 20,),
               campoNombre(),
@@ -89,12 +90,13 @@ Widget cuerpo(){
               //campoNumTelefono(),
               const SizedBox(height: 20),
               botonRegistrarse(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
             ],
           ),
         ),
       ),
     ),
+  )
   )
   
   ),
@@ -208,6 +210,29 @@ bool _esCorreoValido(String correo){
   return regex.hasMatch(correo);
 }
 
+bool _obscureText = true;
+bool _obscureText2 = true;
+
+Widget _visibilidadContrasena() {
+  return IconButton(
+    icon: _obscureText ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+    onPressed: () {
+      setState(() {
+        _obscureText = !_obscureText;
+      });
+    },
+  );
+}
+Widget _visibilidadRepContrasena() {
+  return IconButton(
+    icon: _obscureText2 ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+    onPressed: () {
+      setState(() {
+        _obscureText2 = !_obscureText2;
+      });
+    },
+  );
+}
 Widget campoContrasena(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
@@ -215,13 +240,14 @@ Widget campoContrasena(){
     child: TextFormField(
       controller: _contrasenaController,
       style: const TextStyle(fontSize: 16),
-      obscureText: true,
-      decoration: const InputDecoration(
+      obscureText: _obscureText,
+      decoration: InputDecoration(
         hintText: "Contraseña",
         fillColor: Color.fromARGB(255, 236, 236, 236),
         filled: true,
         errorMaxLines: 2,
-        errorStyle: TextStyle(fontSize: 12)
+        errorStyle: const TextStyle(fontSize: 12),
+        suffixIcon: _visibilidadContrasena(),
       ),
       validator: (value) => _obtenerMensajeErrorContrasena(value ?? ""),
     ),
@@ -259,12 +285,13 @@ Widget campoRepContrasena(){
     height: 45,
     child: TextFormField(
       style: const TextStyle(fontSize: 16),
-      obscureText: true,
-      decoration: const InputDecoration(
+      obscureText: _obscureText2,
+      decoration: InputDecoration(
         hintText: "Repite la contraseña",
         fillColor: Color.fromARGB(255, 236, 236, 236),
         filled: true,
-        errorStyle: TextStyle(fontSize: 12)
+        errorStyle: TextStyle(fontSize: 12),
+        suffixIcon: _visibilidadRepContrasena(),
       ),
       validator: (value){
         if(value?.isEmpty ?? true){
@@ -274,7 +301,6 @@ Widget campoRepContrasena(){
         }
         return null;
       },
-
     ),
   );
 }
