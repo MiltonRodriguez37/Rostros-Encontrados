@@ -65,15 +65,14 @@ Widget cuerpo(){
       ) 
     ),
     
-  
+  child: SingleChildScrollView(
     child: Form(
       key: _formKey,
       child: Center(
       child: Padding (
-        padding: const EdgeInsets.only(top: 70.0),
+        padding: const EdgeInsets.only(top: 120.0,bottom:230.0),
         child: Container (
-          width: 275,
-          height: 580,
+          width: MediaQuery.of(context).size.width * 0.9,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -81,6 +80,7 @@ Widget cuerpo(){
           child: Column (
             mainAxisAlignment: MainAxisAlignment.center, //Teniendo la columna, se debe centrar dentro de la columna
             children: <Widget>[
+              const SizedBox(height: 20,),
               nombre(),
               const SizedBox(height: 20,),
               campoNombre(),
@@ -98,11 +98,13 @@ Widget cuerpo(){
               botonAdjuntarImagen(),
               const SizedBox(height: 10),
               botonEnviarDatos(),
+              const SizedBox(height: 20),
             ],
           ),
         ),
       ),
     ),
+  )
   )
   );
 

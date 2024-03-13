@@ -168,6 +168,18 @@ Widget campoUsuario(){
     ),
   );
 }
+bool _obscureText = true;
+
+Widget _visibilidadContrasena() {
+  return IconButton(
+    icon: _obscureText ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+    onPressed: () {
+      setState(() {
+        _obscureText = !_obscureText;
+      });
+    },
+  );
+}
 
 Widget campoContrasena(){
   return Container(
@@ -175,11 +187,12 @@ Widget campoContrasena(){
     height: 50,
     child: TextFormField(
       controller: _contrasenaController,
-      obscureText: true,
-      decoration: const InputDecoration(
+      obscureText: _obscureText,
+      decoration: InputDecoration(
         hintText: "Password",
-        fillColor: Color.fromARGB(255, 236, 236, 236),
-        filled: true
+        fillColor: const Color.fromARGB(255, 236, 236, 236),
+        filled: true,
+        suffixIcon: _visibilidadContrasena(),
       ),
       validator: (value){
         if(value?.isEmpty ?? true){
@@ -190,6 +203,7 @@ Widget campoContrasena(){
     )
   );
 }
+
 
 
 
