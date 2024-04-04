@@ -349,7 +349,7 @@ Widget botonEnviarDatos(){
               final decoded = json.decode(response.body);
               
               final nombreImagen = _imagenSeleccionada.files.single.bytes;
-              final rutaImagen = (int.parse(decoded['id'])+1).toString();
+              final rutaImagen = decoded['id'];
               print('Hasta aquí todo bien');
               storage.subirArchivo(nombreImagen, rutaImagen).then((value) => print('Imagen subida'));
               _mostrarMensajeExito(context);
