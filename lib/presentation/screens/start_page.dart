@@ -34,10 +34,27 @@ class StartPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 430,
+                  height: 410,
                 ),
                 Center(
-                  child: TextButton(
+                  child: SizedBox(
+                    height: 45,
+                    child: TextButton.icon(
+                    icon: const Icon(Icons.person, color: Color.fromARGB(255, 0, 0, 0),),
+                    onPressed: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const InicioSesion()),
+                        );
+                    },
+                    label: const Text("   Iniciar sesión     ", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 253, 229, 8),
+                      padding: const EdgeInsets.all(13),
+                      side: const BorderSide(width: 1, color: Colors.black)
+                    ),
+                ),
+                 /*  child: TextButton(
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: const Color.fromARGB(255, 253, 229, 8),
@@ -51,13 +68,36 @@ class StartPage extends StatelessWidget {
                       );
                     },
                     child: const Text("     Iniciar sesión     ", style: TextStyle(fontSize: 17, color: Colors.black)),
-                  ),
-                ),
+                  ), */
+                )),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
+                ),
+                const Center(
+                child: Text(
+                '¿No tienes una cuenta?',
+                style: TextStyle(fontSize: 14, color: Colors.white),
+                    ),),
+                const SizedBox(
+                  height: 7,
                 ),
                 Center(
-                  child: GestureDetector(
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 8, 135, 253),
+                      padding: const EdgeInsets.all(13),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    ),
+                    onPressed: () {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const RegistrarUsuario()), // Reemplaza con la pantalla de registro que tienes
+                      );
+                    },
+                    child: const Text("  Regístrate aquí  ", style: TextStyle(fontSize: 14, color: Color.fromARGB(255, 255, 255, 255))),
+                  )
+                  /* child: GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
@@ -65,10 +105,10 @@ class StartPage extends StatelessWidget {
                       );
                     },
                     child: const Text(
-                      '¿No tienes una cuenta? Regístrate aquí',
-                      style: TextStyle(fontSize: 13, color: Colors.white),
+                      '¿No tienes una cuenta? Presiona aquí para registrarte',
+                      style: TextStyle(fontSize: 14, color: Colors.white),
                     ),
-                  ),
+                  ), */
                 ),
               ],
             ),

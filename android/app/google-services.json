@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "226844938010",
+    "project_id": "rostros-encontrados",
+    "storage_bucket": "rostros-encontrados.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226844938010:android:b0141c41ad26899a27e6a3",
+        "android_client_info": {
+          "package_name": "com.example.rostros_encontrados"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmLmzKV6a8NztfC0zplPZ8Z8VYb4fwjps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
