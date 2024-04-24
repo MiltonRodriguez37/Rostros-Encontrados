@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/presentation/screens/CoincidenciaEncontrada.dart';
+import 'package:rostros_encontrados/presentation/screens/AunNoCoincidencias.dart';
 import 'package:rostros_encontrados/presentation/screens/user.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:typed_data';
-//import 'package:firebase_core/firebase_core.dart';
 import 'package:rostros_encontrados/shared/services/upload_picture_firebase_encontrados.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -20,27 +20,27 @@ class Camara extends StatefulWidget {
 
 class _CamaraState extends State<Camara> {
   bool isLoading = false;
-   final Storage storage = Storage();
+  final Storage storage = Storage();
 
-void _mostrarMensajeError(BuildContext context,error) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('¡Error!'),
-        content: Text(error),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Aceptar'),
-          ),
-        ],
-      );
-    },
-  );
-}
+  void _mostrarMensajeError(BuildContext context, error) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('¡Error!'),
+          content: Text(error),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Aceptar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void _descargarImagen(BuildContext context, String nombreImagen) async {
     setState(() {
@@ -84,22 +84,30 @@ void _mostrarMensajeError(BuildContext context,error) {
           } else {
             print('Error: Datos de coincidencia incompletos');
           }
+        } else if (responseGet.statusCode == 404) {
+          // Navegar a la pantalla AunNoCoincidencias si no se encontraron coincidencias
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AunNoCoincidencias(),
+            ),
+          );
         } else {
           print('Error en la respuesta GET ${responseGet.statusCode}');
           print('Respuesta JSON: ${responseGet.body}');
         }
       } else {
-        //añadir mensaje en pantalla
-        print('Error al descargar imagenjhdjd ${responsePost.statusCode}');
-        _mostrarMensajeError(context,'Error al cargar la imagen, intente de nuevo');
+        // Añadir mensaje en pantalla
+        print('Error al descargar imagen: ${responsePost.statusCode}');
+        _mostrarMensajeError(context, 'Error al cargar la imagen, intente de nuevo');
       }
     } catch (e) {
       print('Error en la solicitud HTTP: $e');
+    } finally {
+      setState(() {
+        isLoading = false; // Desactivar indicador de carga
+      });
     }
-
-    setState(() {
-      isLoading = false; // Desactivar indicador de carga
-    });
   }
 
   @override
@@ -108,7 +116,7 @@ void _mostrarMensajeError(BuildContext context,error) {
       child: Container(
         height: 500.0,
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color.fromARGB(255, 255, 255, 255),
           borderRadius: BorderRadius.all(Radius.circular(15)),
         ),
@@ -117,25 +125,25 @@ void _mostrarMensajeError(BuildContext context,error) {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Selecciona una opción:",
               style: TextStyle(
                 fontSize: 28.0,
                 color: Color.fromARGB(255, 0, 0, 0),
               ),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton.icon(
-                  icon: Icon(Icons.image, color: Color.fromARGB(255, 0, 0, 0)),
-                  onPressed: () async {
+                  icon: const Icon(Icons.image, color: Color.fromARGB(255, 0, 0, 0)),
+                  onPressed: isLoading ? null : () async {
                     final results = await FilePicker.platform.pickFiles();
 
                     if (results == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Imagen no seleccionada'),
                         ),
                       );
@@ -155,7 +163,7 @@ void _mostrarMensajeError(BuildContext context,error) {
                         await storage.subirArchivo(ruta, nombreImagen);
                         _descargarImagen(context, nombreImagen);
                       } else {
-                        print('Error al enviar datos: ${response.statusCode}');
+                        print('Error al enviar datosjdj: ${response.statusCode}');
                       }
                     } catch (e) {
                       print('No se completó la acción deseada');
@@ -168,10 +176,10 @@ void _mostrarMensajeError(BuildContext context,error) {
                     side: const BorderSide(width: 1, color: Colors.black)
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton.icon(
-                  icon: Icon(Icons.camera, color: Color.fromARGB(255, 0, 0, 0)),
-                  onPressed: () async {
+                  icon: const Icon(Icons.camera, color: Color.fromARGB(255, 0, 0, 0)),
+                  onPressed: isLoading ? null : () async {
                     final picker = ImagePicker();
                     final results = await picker.pickImage(
                       source: ImageSource.camera,
@@ -181,7 +189,7 @@ void _mostrarMensajeError(BuildContext context,error) {
 
                     if (results == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Imagen no seleccionada'),
                         ),
                       );
@@ -203,7 +211,7 @@ void _mostrarMensajeError(BuildContext context,error) {
                         await storage.subirArchivo(ruta, nombreImagen);
                         _descargarImagen(context, nombreImagen);
                       } else {
-                        print('Error al enviar datos: ${response.statusCode}');
+                        print('Error al enviar datoskjdksjk: ${response.statusCode}');
                       }
                     } catch (e) {
                       print('No se completó la acción deseada');
