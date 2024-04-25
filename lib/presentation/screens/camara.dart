@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/presentation/screens/CoincidenciaEncontrada.dart';
 import 'package:rostros_encontrados/presentation/screens/AunNoCoincidencias.dart';
@@ -67,16 +68,18 @@ class _CamaraState extends State<Camara> {
         if (responseGet.statusCode == 200) {
           // La solicitud fue exitosa, procesa la respuesta
           final data = json.decode(responseGet.body);
-          String? idCoincidencia = data['idCoincidencia'];
+          //String? idCoincidencia = data['idCoincidencia'];
+          Map<String, dynamic>? detallesCoincidencia = data['detallesCoincidencia'];
+          Map<String, dynamic>? detallesUsuario = data['detallesUsuario'];
           double? porcentajeCoincidencia = data['porcentajeCoincidencia'];
-
           // Navega a la nueva pantalla con los datos recibidos
-          if (idCoincidencia != null && porcentajeCoincidencia != null) {
+          if (porcentajeCoincidencia != null && detallesCoincidencia != null && detallesUsuario != null) {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => CoincidenciaEncontrada(
-                  idCoincidencia: idCoincidencia,
+                  detallesCoincidencia: detallesCoincidencia,
+                  detallesUsuario: detallesUsuario,
                   porcentajeCoincidencia: porcentajeCoincidencia,
                 ),
               ),
@@ -160,7 +163,7 @@ class _CamaraState extends State<Camara> {
                         final data = json.decode(response.body);
                         nombreImagen = data['ultima_imagen'];
                         final ruta = results.files.single.bytes;
-                        await storage.subirArchivo(ruta, nombreImagen);
+                         final urlFirebase = await storage.subirArchivo(ruta, nombreImagen);
                         _descargarImagen(context, nombreImagen);
                       } else {
                         print('Error al enviar datosjdj: ${response.statusCode}');
@@ -208,7 +211,7 @@ class _CamaraState extends State<Camara> {
                         List<int> fileBytes = await results.readAsBytes();
                         Uint8List uint8List = Uint8List.fromList(fileBytes);
                         final ruta = uint8List;
-                        await storage.subirArchivo(ruta, nombreImagen);
+                        final urlFirebase = await storage.subirArchivo(ruta, nombreImagen);
                         _descargarImagen(context, nombreImagen);
                       } else {
                         print('Error al enviar datoskjdksjk: ${response.statusCode}');
