@@ -4,6 +4,8 @@ class CoincidenciaEncontrada extends StatefulWidget {
   final double porcentajeCoincidencia;
   final Map<String, dynamic> detallesCoincidencia;
   final Map<String, dynamic> detallesUsuario;
+  final Image desaparecido;
+  final Image encontrado;
   
 
   const CoincidenciaEncontrada({
@@ -11,6 +13,8 @@ class CoincidenciaEncontrada extends StatefulWidget {
     required this.porcentajeCoincidencia,
     required this.detallesCoincidencia,
     required this.detallesUsuario,
+    required this.desaparecido,
+    required this.encontrado
   });
 
   @override
@@ -122,11 +126,10 @@ class _CoincidenciaEncontradaState extends State<CoincidenciaEncontrada> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Image.network(
-              'https://thumbs.dreamstime.com/b/portrait-innocence-innocent-kid-slum-islamabad-pakistan-67584463.jpg',
-              fit: BoxFit.cover,
-              width: 125.0,
-              height: 175.0,
+            SizedBox(
+            height: 175.0,
+            width: 125.0,
+            child: widget.encontrado,
             ),
             const SizedBox(height: 15),
             const Text(
@@ -140,12 +143,11 @@ class _CoincidenciaEncontradaState extends State<CoincidenciaEncontrada> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Image.network(
-              'https://thumbs.dreamstime.com/b/portrait-innocence-innocent-kid-slum-islamabad-pakistan-67584463.jpg',
-              fit: BoxFit.cover,
-              width: 125.0,
-              height: 175.0,
-            ),
+            SizedBox(
+            height: 175.0,
+            width: 125.0,
+            child: widget.desaparecido,
+          ),
             const SizedBox(height: 15),
             const Text(
               'Foto registrada',
@@ -158,12 +160,4 @@ class _CoincidenciaEncontradaState extends State<CoincidenciaEncontrada> {
       ],
     );
   }
-
-  /* Widget widgetsAbajo() {
-    return Text(
-      "Widgets abajo.",
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.black, fontSize: 15.0),
-    );
-  } */
 }

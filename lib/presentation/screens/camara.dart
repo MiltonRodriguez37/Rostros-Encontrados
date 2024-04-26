@@ -72,6 +72,8 @@ class _CamaraState extends State<Camara> {
           Map<String, dynamic>? detallesCoincidencia = data['detallesCoincidencia'];
           Map<String, dynamic>? detallesUsuario = data['detallesUsuario'];
           double? porcentajeCoincidencia = data['porcentajeCoincidencia'];
+          Image desaparecido = Image.memory(base64Decode(data['desaparecido']));
+          Image encontrado = Image.memory(base64Decode(data['encontrado']));
           // Navega a la nueva pantalla con los datos recibidos
           if (porcentajeCoincidencia != null && detallesCoincidencia != null && detallesUsuario != null) {
             Navigator.push(
@@ -81,6 +83,8 @@ class _CamaraState extends State<Camara> {
                   detallesCoincidencia: detallesCoincidencia,
                   detallesUsuario: detallesUsuario,
                   porcentajeCoincidencia: porcentajeCoincidencia,
+                  desaparecido: desaparecido,
+                  encontrado: encontrado,
                 ),
               ),
             );
