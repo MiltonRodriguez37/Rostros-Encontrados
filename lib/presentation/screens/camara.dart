@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/presentation/screens/CoincidenciaEncontrada.dart';
 import 'package:rostros_encontrados/presentation/screens/AunNoCoincidencias.dart';
+import 'package:rostros_encontrados/presentation/screens/RostroNoReconocido.dart';
 import 'package:rostros_encontrados/presentation/screens/user.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
@@ -87,6 +88,14 @@ class _CamaraState extends State<Camara> {
           } else {
             print('Error: Datos de coincidencia incompletos');
           }
+        }else if (responseGet.statusCode == 400) {
+          // Navegar a la pantalla RostroNoReconocido si no se encontraron coincidencias
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RostroNoReconocido(),
+            ),
+          );
         } else if (responseGet.statusCode == 404) {
           // Navegar a la pantalla AunNoCoincidencias si no se encontraron coincidencias
           Navigator.push(
