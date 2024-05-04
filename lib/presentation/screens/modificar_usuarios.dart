@@ -61,7 +61,6 @@ class _HomeState extends State<Home> {
     _apellidosController.text = widget.usuario?.apellido ?? '';
     _correoController.text = widget.usuario?.correo ?? '';
     _celularController.text = widget.usuario?.telefono ?? '';
-    // Repite el proceso para otros campos si es necesario
   }
 
 
@@ -236,7 +235,7 @@ Widget campoCorreo(){
 }
 
 bool _esCorreoValido(String correo){
-  final RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
+  final RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)*(\.[a-zA-Z]{2,})$');
   return regex.hasMatch(correo);
 }
 
@@ -392,7 +391,30 @@ Widget botonModificar(){
     icon: const Icon(Icons.how_to_reg, color: Color.fromARGB(255, 255, 255, 255),),
     onPressed: (){
         if(_formKey.currentState?.validate() ?? false){
-          _enviarDatos();
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('¡Atención!'),
+                content: Text('Al modificar tus datos, tendrás que iniciar sesión nuevamente'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Cierra el diálogo
+                    },
+                    child: Text('Cancelar'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _enviarDatos();
+                      Navigator.of(context).pop(); // Realiza la modificación
+                    },
+                    child: Text('Aceptar'),
+                  ),
+                ],
+              );
+            },
+          );
           //Añadir a base de datos
         }
     },
@@ -440,16 +462,20 @@ String encriptarContrasena(String contrasena) {
 
 
 void _enviarDatos() async {
-  final url = Uri.parse('http://rostrosencontrados.pythonanywhere.com/registrar_usuario');
+  final sessionProvider = Provider.of<SessionProvider>(context, listen: false);
+  final correoActual = widget.usuario?.correo;
+  final url = Uri.parse('http://rostrosencontrados.pythonanywhere.com/modificar_usuario');
   final contrasenaEncriptada = encriptarContrasena(_contrasenaController.text);
-  // Construye el cuerpo de la solicitud con los datos que deseas enviar
+  print('Correo actual:${correoActual}');
+  print('Correo nuevo:${_correoController.text}');
+  // Construye el cuerpo de la solicitud
   final body = jsonEncode({
     'nombre': _nombreController.text,
     'apellidos': _apellidosController.text,
     'correo': _correoController.text,
     'contrasena': contrasenaEncriptada,
     'celular': _celularController.text,
-    // Agrega más campos según tus necesidades
+    'correo_actual': correoActual,
   });
 
   // Realiza la solicitud HTTP POST
@@ -463,11 +489,12 @@ void _enviarDatos() async {
   if (response.statusCode == 200) {
     // La solicitud fue exitosa
     print('Datos enviados exitosamente');
+    _mostrarMensajeExito(context);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const InicioSesion()),
     );
-    _mostrarMensajeExito(context);
+    sessionProvider.clearUser();
   }
   else if(response.statusCode == 402){
         print('Error al enviar datos: ${response.statusCode}');
