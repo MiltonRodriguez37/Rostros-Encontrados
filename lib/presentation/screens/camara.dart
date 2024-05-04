@@ -73,6 +73,8 @@ class _CamaraState extends State<Camara> {
           Map<String, dynamic>? detallesCoincidencia = data['detallesCoincidencia'];
           Map<String, dynamic>? detallesUsuario = data['detallesUsuario'];
           double? porcentajeCoincidencia = data['porcentajeCoincidencia'];
+          Image desaparecido = Image.memory(base64Decode(data['desaparecido']));
+          Image encontrado = Image.memory(base64Decode(data['encontrado']));
           // Navega a la nueva pantalla con los datos recibidos
           if (porcentajeCoincidencia != null && detallesCoincidencia != null && detallesUsuario != null) {
             Navigator.push(
@@ -82,6 +84,8 @@ class _CamaraState extends State<Camara> {
                   detallesCoincidencia: detallesCoincidencia,
                   detallesUsuario: detallesUsuario,
                   porcentajeCoincidencia: porcentajeCoincidencia,
+                  desaparecido: desaparecido,
+                  encontrado: encontrado,
                 ),
               ),
             );
@@ -223,7 +227,8 @@ class _CamaraState extends State<Camara> {
                         final urlFirebase = await storage.subirArchivo(ruta, nombreImagen);
                         _descargarImagen(context, nombreImagen);
                       } else {
-                        print('Error al enviar datoskjdksjk: ${response.statusCode}');
+                        print('Error al enviar datos1: ${response.statusCode}');
+                        _mostrarMensajeError(context, 'Error al subir la imagen, intente nuevamente');
                       }
                     } catch (e) {
                       print('No se completó la acción deseada');

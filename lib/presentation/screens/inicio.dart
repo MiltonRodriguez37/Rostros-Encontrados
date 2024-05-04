@@ -133,11 +133,11 @@ class Inicio extends StatelessWidget {
       width: 290,
       height: 40,
       child: TextButton.icon(
-        icon: const Icon(Icons.edit, color: Color.fromARGB(255, 0, 0, 0),),
+        icon: const Icon(Icons.delete, color: Color.fromARGB(255, 255, 254, 254),),
         onPressed: () => print("Registro"),
-        label: const Text(" Modificar este registro ", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17, decoration: TextDecoration.none,)),
+        label: const Text(" Eliminar registro ", style: TextStyle(color: Color.fromARGB(255, 253, 253, 253), fontSize: 17, decoration: TextDecoration.none,)),
         style: TextButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 253, 229, 8),
+          backgroundColor: const Color.fromARGB(255, 224, 8, 8),
           padding: const EdgeInsets.all(13),
           side: const BorderSide(width: 1, color: Colors.black)
         ),
