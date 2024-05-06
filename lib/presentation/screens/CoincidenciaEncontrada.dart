@@ -36,7 +36,15 @@ class _CoincidenciaEncontradaState extends State<CoincidenciaEncontrada> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const SizedBox(height: 30),
+          ElevatedButton(
+            onPressed: () {
+              // Acción al presionar "Volver"
+              // Aquí puedes agregar la lógica para volver atrás
+              Navigator.pop(context); // Cierra esta pantalla
+            },
+            child: Text("Volver"),
+          ),
+          const SizedBox(height: 10),
           mensaje1(),
           const SizedBox(height: 15),
           mensaje2(),
