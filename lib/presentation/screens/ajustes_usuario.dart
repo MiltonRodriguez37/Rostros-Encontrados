@@ -3,6 +3,7 @@ import 'package:rostros_encontrados/presentation/screens/user.dart';
 import 'package:rostros_encontrados/presentation/screens/session_provider.dart';
 import 'package:rostros_encontrados/presentation/screens/start_page.dart';
 import 'package:rostros_encontrados/presentation/screens/ingreso.dart';
+import 'package:rostros_encontrados/presentation/screens/modificar_usuarios.dart';
 import 'package:provider/provider.dart';
 
 class AjustesUsuario extends StatelessWidget {
@@ -71,27 +72,32 @@ class AjustesUsuario extends StatelessWidget {
                 style: const TextStyle(fontSize: 20),
                 textAlign: TextAlign.start,
               ),
-/*               const SizedBox(height: 20),
+             const SizedBox(height: 20),
               SizedBox(
                 height: 55,
                 width: 300,
                 child: TextButton.icon(
                   icon: const Icon(
                     Icons.edit,
-                    color: Color.fromARGB(255, 0, 0, 0),
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ModificarUsuario(usuario:user)),
+                );
+                  },
                   label: const Text(
                     "Modificar información",
-                    style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 22),
+                    style: TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 22),
                   ),
                   style: TextButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 0, 137, 205),
+                    backgroundColor: Color.fromARGB(255, 80, 8, 212),
                     padding: const EdgeInsets.all(18),
                     side: const BorderSide(width: 1, color: Colors.black),
                   ),
                 ),
-              ), */
+              ), 
               const SizedBox(height: 20),
               SizedBox(
                 height: 55,
@@ -99,7 +105,7 @@ class AjustesUsuario extends StatelessWidget {
                 child: TextButton.icon(
                   icon: const Icon(
                     Icons.logout,
-                    color: Color.fromARGB(255, 0, 0, 0),
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   onPressed: () {
                     Navigator.push(
@@ -110,7 +116,7 @@ class AjustesUsuario extends StatelessWidget {
                   },
                   label: const Text(
                     "Cerrar sesión",
-                    style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 22),
+                    style: TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 22),
                   ),
                   style: TextButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 224, 8, 8),

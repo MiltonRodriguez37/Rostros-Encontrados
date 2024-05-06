@@ -87,13 +87,13 @@ Widget cuerpo(){
               const SizedBox(height: 10),
               campoApellidos(),
               const SizedBox(height: 10),
-              campoFechaNac(),
-              const SizedBox(height: 10),
               campoFechaLugar(),
               const SizedBox(height: 10),
               campoCaracteristicas(),
               const SizedBox(height: 10),
               campoDatosAdicionales(),
+              const SizedBox(height: 10),
+              campoFechaNac(),
               const SizedBox(height: 20),
               botonAdjuntarImagen(),
               const SizedBox(height: 10),
@@ -246,13 +246,21 @@ Widget campoCaracteristicas(){
 Widget campoDatosAdicionales(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 45,
     child: TextFormField(
       controller: _datosAdicionalesController,
       decoration: const InputDecoration(
         hintText: "Datos adicionales",
         fillColor: Color.fromARGB(255, 236, 236, 236),
-        filled: true
+        filled: true,
+        errorStyle: TextStyle(fontSize: 12),
       ),
+       validator: (value){
+        if(value?.isEmpty ?? true){
+          return 'Completa los campos';
+        }
+        return null;
+      },
     ),
   );
 }
@@ -341,6 +349,19 @@ Widget botonEnviarDatos(){
     onPressed: () async{
         if(_formKey.currentState?.validate() ?? false){
           //Avanza a la siguiente página
+          if (_imagenSeleccionada == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Por favor, adjunta una imagen')),
+            );
+            return;
+          }
+
+          if (_fechaNacimiento == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Por favor, selecciona una fecha de nacimiento')),
+            );
+            return;
+          }
             try {
               _enviarDatos();
 
@@ -445,7 +466,7 @@ void _mostrarMensajeError(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('¡Error!'),
-        content: Text('No se completó el registro.'),
+        content: Text('Error en el servidor, no se completó el registro.'),
         actions: <Widget>[
           TextButton(
             onPressed: () {

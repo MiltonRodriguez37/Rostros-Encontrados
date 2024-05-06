@@ -5,6 +5,7 @@ import 'package:rostros_encontrados/presentation/screens/session_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rostros_encontrados/presentation/screens/inicio_sesion.dart';
 import 'package:rostros_encontrados/presentation/screens/registro_usuario.dart';
+import 'package:rostros_encontrados/presentation/screens/inicio.dart';
 //import './presentation/screens/start_page.dart';
 //import './principal.dart';
 /* void main(){
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
   routes: {
     '/inicio_sesion': (context) => const InicioSesion(), // Pantalla de inicio de sesión
     '/registro_usuario': (context) => const RegistrarUsuario(), // Pantalla de registro de usuario
+    '/inicio': (context) => const Inicio(),
     // Agrega aquí más rutas según sea necesario
   },
         theme: ThemeData(
