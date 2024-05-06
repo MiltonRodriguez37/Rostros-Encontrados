@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:rostros_encontrados/presentation/screens/ingreso.dart';
 import 'package:rostros_encontrados/shared/services/upload_picture_firebase.dart';
 import 'package:rostros_encontrados/presentation/screens/user.dart';
+import 'dart:typed_data';
 
 /* import 'package:firebase_core/firebase_core.dart'; */
 
@@ -87,13 +89,13 @@ Widget cuerpo(){
               const SizedBox(height: 10),
               campoApellidos(),
               const SizedBox(height: 10),
-              campoFechaNac(),
-              const SizedBox(height: 10),
               campoFechaLugar(),
               const SizedBox(height: 10),
               campoCaracteristicas(),
               const SizedBox(height: 10),
               campoDatosAdicionales(),
+              const SizedBox(height: 10),
+              campoFechaNac(),
               const SizedBox(height: 20),
               botonAdjuntarImagen(),
               const SizedBox(height: 10),
@@ -117,7 +119,7 @@ Widget nombre(){
 Widget campoNombre(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 45,
+    height: 55,
     child: TextFormField(
       controller: _nombreController,
       decoration: const InputDecoration(
@@ -141,7 +143,7 @@ Widget campoNombre(){
 Widget campoApellidos(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 45,
+    height: 55,
     child: TextFormField(
       controller: _apellidosController,
       decoration: const InputDecoration(
@@ -172,7 +174,7 @@ bool _esNombreApellidoValido(String nombre){
 Widget campoFechaNac(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 45,
+    height: 55,
     child: TextField(
       controller: _fechaController,
       decoration: const InputDecoration(
@@ -202,7 +204,7 @@ Future<DateTime?> _seleccionarFecha(BuildContext context) async {
 Widget campoFechaLugar(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 45,
+    height: 55,
     child: TextFormField(
       controller: _fechaLugarController,
       decoration: const InputDecoration(
@@ -224,7 +226,7 @@ Widget campoFechaLugar(){
 Widget campoCaracteristicas(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 45,
+    height: 55,
     child: TextFormField(
       controller: _caracteristicasController,
       decoration: const InputDecoration(
@@ -246,24 +248,32 @@ Widget campoCaracteristicas(){
 Widget campoDatosAdicionales(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+    height: 55,
     child: TextFormField(
       controller: _datosAdicionalesController,
       decoration: const InputDecoration(
         hintText: "Datos adicionales",
         fillColor: Color.fromARGB(255, 236, 236, 236),
-        filled: true
+        filled: true,
+        errorStyle: TextStyle(fontSize: 12),
       ),
+       validator: (value){
+        if(value?.isEmpty ?? true){
+          return 'Completa los campos';
+        }
+        return null;
+      },
     ),
   );
 }
 Widget botonAdjuntarImagen() {
   return SizedBox(
-    width: 200,
+    width: MediaQuery.of(context).size.width * 0.75,
     height: 50,
     child: TextButton.icon(
       icon: const Icon(Icons.image, color: Color.fromARGB(255, 0, 0, 0),),
       onPressed: _adjuntarImagen,
-      label: Text(_imagenSeleccionada != null ? _imagenSeleccionada.files.single.name : "Adjuntar imagen",
+      label: Text(_imagenSeleccionada != null ? _imagenSeleccionada.name : "Adjuntar imagen",
           style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
       style: TextButton.styleFrom(
         backgroundColor: const Color.fromARGB(255, 8, 135, 253),
@@ -277,7 +287,9 @@ Widget botonAdjuntarImagen() {
 var _imagenSeleccionada;
 
 void _adjuntarImagen() async {
-  final results = await FilePicker.platform.pickFiles();
+  final picker = ImagePicker();
+  final results = await picker.pickImage(source: ImageSource.gallery);
+  //final results = await FilePicker.platform.pickFiles();
 
   if (results != null) {
     setState(() {
@@ -330,17 +342,30 @@ void _adjuntarImagen() async {
   );
 } */
 
+final Storage storage = Storage();
 
 Widget botonEnviarDatos(){
-  Storage storage = Storage();
   return SizedBox(
-    width: 190,
-    height: 45,
+    width: MediaQuery.of(context).size.width * 0.75,
+    height: 50,
     child: TextButton.icon(
     icon: const Icon(Icons.arrow_forward, color: Color.fromARGB(255, 0, 0, 0),),
     onPressed: () async{
         if(_formKey.currentState?.validate() ?? false){
           //Avanza a la siguiente página
+          if (_imagenSeleccionada == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Por favor, adjunta una imagen')),
+            );
+            return;
+          }
+
+          if (_fechaNacimiento == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Por favor, selecciona una fecha de nacimiento')),
+            );
+            return;
+          }
             try {
               _enviarDatos();
 
@@ -348,16 +373,19 @@ Widget botonEnviarDatos(){
               final response = await http.get(url);
               final decoded = json.decode(response.body);
               
-              final nombreImagen = _imagenSeleccionada.files.single.bytes;
-              final rutaImagen = decoded['id'];
+              List<int> fileBytes = await _imagenSeleccionada.readAsBytes();
+              Uint8List uint8List = Uint8List.fromList(fileBytes);
+              final ruta = uint8List;
+              final nombreImagen = decoded['id'];
               print('Hasta aquí todo bien');
-              storage.subirArchivo(nombreImagen, rutaImagen).then((value) => print('Imagen subida'));
+              final urlFirebase = await storage.subirArchivo(ruta, nombreImagen);
+              print('imagen subida');
               _mostrarMensajeExito(context);
               Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Ingreso()),
             );
-              }
+            }
             catch (e) {
                     print('No se completó el registro');
                     _mostrarMensajeError(context);
@@ -445,7 +473,7 @@ void _mostrarMensajeError(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('¡Error!'),
-        content: Text('No se completó el registro.'),
+        content: Text('Error en el servidor, no se completó el registro.'),
         actions: <Widget>[
           TextButton(
             onPressed: () {

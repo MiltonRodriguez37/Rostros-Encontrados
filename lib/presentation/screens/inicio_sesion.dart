@@ -150,7 +150,7 @@ Widget nombre(){
 Widget campoUsuario(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-    height: 50,
+    height: 58,
     child: TextFormField(
       controller: _usuarioController,
       decoration: const InputDecoration(
@@ -184,7 +184,7 @@ Widget _visibilidadContrasena() {
 Widget campoContrasena(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-    height: 50,
+    height: 58,
     child: TextFormField(
       controller: _contrasenaController,
       obscureText: _obscureText,
@@ -211,7 +211,7 @@ Widget botonEntrar(BuildContext context){
 
   return SizedBox(
     width: 190,
-    height: 45,
+    height: 55,
     child: TextButton.icon(
     icon: const Icon(Icons.lock_open, color: Color.fromARGB(255, 0, 0, 0),),
     onPressed: (){

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/presentation/screens/ajustes_usuario.dart';
 import 'package:provider/provider.dart';
+import 'package:rostros_encontrados/presentation/screens/camara.dart';
+import 'package:rostros_encontrados/presentation/screens/ingreso.dart';
 import 'package:rostros_encontrados/presentation/screens/session_provider.dart';
 import 'package:rostros_encontrados/presentation/screens/user.dart';
 import 'dart:convert';
@@ -122,26 +124,60 @@ class Inicio extends StatelessWidget {
           ),
 
           const SizedBox(height: 10),
-          botonEditar(context),
+          botonEliminar(context,registro['id_usuario'],registro['id_persona']),
         ],
       ),
     );
   }
 
-  Widget botonEditar(BuildContext context) {
-    return SizedBox(
-      width: 290,
-      height: 40,
-      child: TextButton.icon(
-        icon: const Icon(Icons.edit, color: Color.fromARGB(255, 0, 0, 0),),
-        onPressed: () => print("Registro"),
-        label: const Text(" Modificar este registro ", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17, decoration: TextDecoration.none,)),
-        style: TextButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 253, 229, 8),
-          padding: const EdgeInsets.all(13),
-          side: const BorderSide(width: 1, color: Colors.black)
+  Widget botonEliminar(BuildContext context,idUsuario,idPersona) {
+    return Row(
+    children: [
+      Expanded(
+        child: SizedBox(
+          height: 50,
+            child: TextButton.icon(
+              icon: const Icon(Icons.delete, color: Color.fromARGB(255, 255, 254, 254),),
+              onPressed: () =>
+                //print('id_usuario:${idUsuario}, id_persona:${idPersona}')
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('¡Atención!'),
+                      content: Text('Este registro se eliminará de manera permanente'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Cancelar'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            eliminarRegistro(context, idUsuario, idPersona,usuario);
+                            //Navigator.of(context).pop();
+                            /* Navigator.push(
+                                context,
+                                  MaterialPageRoute(builder: (context) => Inicio(usuario: usuario)),
+                                ); */
+                          },
+                          child: Text('Aceptar'),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              label: const Text(" Eliminar registro ", style: TextStyle(color: Color.fromARGB(255, 253, 253, 253), fontSize: 17, decoration: TextDecoration.none,)),
+              style: TextButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 224, 8, 8),
+                padding: const EdgeInsets.all(13),
+                side: const BorderSide(width: 1, color: Colors.black)
+              ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -159,4 +195,89 @@ class Inicio extends StatelessWidget {
       return [];
     }
   }
+}
+
+void eliminarRegistro(BuildContext context, int idUsuario, int idPersona,usuario) async {
+  final url2 = Uri.parse('http://rostrosencontrados.pythonanywhere.com/eliminar_registro');
+  
+  // Construye el cuerpo de la solicitud
+  final body = jsonEncode({
+    'id_usuario': idUsuario,
+    'id_persona': idPersona,
+  });
+
+  try {
+    // Realiza la solicitud HTTP POST
+    final response = await http.post(
+      url2,
+      headers: {'Content-Type': 'application/json'},
+      body: body,
+    );
+
+    // Verifica el estado de la respuesta
+    if (response.statusCode == 200) {
+      // La solicitud fue exitosa
+      print('Registro eliminado exitosamente');
+      Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Ingreso()));
+      _mostrarMensajeExito(context, 'Registro eliminado correctamente.');
+       /* ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Registro eliminado con éxito'),
+        ),
+      ); */
+      // Recarga la pantalla actual
+      
+      //_mostrarMensajeExito(context, 'Registro eliminado exitosamente');
+    } else {
+      // Hubo un error en la solicitud
+      print('Error al eliminar registro: ${response.statusCode}');
+      _mostrarMensajeError(context, 'Error al eliminar registro');
+    }
+  } catch (e) {
+    // Hubo un error en la conexión
+    print('Error de conexión: $e');
+    _mostrarMensajeError(context, 'Error de conexión');
+  }
+}
+
+void _mostrarMensajeExito(BuildContext context, String mensaje) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Éxito'),
+        content: Text(mensaje),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Aceptar'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _mostrarMensajeError(BuildContext context, String mensaje) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Error'),
+        content: Text(mensaje),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Aceptar'),
+          ),
+        ],
+      );
+    },
+  );
 }

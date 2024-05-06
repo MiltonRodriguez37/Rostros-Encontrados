@@ -296,6 +296,42 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "permission_handler",
+      "rootUri": "file:///C:/Users/Usuario/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler-11.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "permission_handler_android",
+      "rootUri": "file:///C:/Users/Usuario/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_android-12.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "permission_handler_apple",
+      "rootUri": "file:///C:/Users/Usuario/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_apple-9.4.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "permission_handler_html",
+      "rootUri": "file:///C:/Users/Usuario/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_html-0.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "permission_handler_platform_interface",
+      "rootUri": "file:///C:/Users/Usuario/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_platform_interface-4.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "permission_handler_windows",
+      "rootUri": "file:///C:/Users/Usuario/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_windows-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "plugin_platform_interface",
       "rootUri": "file:///C:/Users/Usuario/AppData/Local/Pub/Cache/hosted/pub.dev/plugin_platform_interface-2.1.5",
       "packageUri": "lib/",
@@ -386,7 +422,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-05-06T03:52:08.758372Z",
+  "generated": "2024-05-06T08:24:10.301149Z",
   "generator": "pub",
   "generatorVersion": "3.3.3"
 }

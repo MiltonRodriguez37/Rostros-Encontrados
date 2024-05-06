@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:rostros_encontrados/presentation/screens/start_page.dart';
+import 'package:rostros_encontrados/presentation/screens/ajustes_usuario.dart';
 import 'package:crypto/crypto.dart' as crypto;
 import 'dart:convert';
+import 'package:rostros_encontrados/presentation/screens/user.dart';
+import 'package:rostros_encontrados/presentation/screens/session_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:rostros_encontrados/presentation/screens/inicio_sesion.dart';
 
 
-class RegistrarUsuario extends StatelessWidget {
-  const RegistrarUsuario({super.key});
+class ModificarUsuario extends StatelessWidget {
+  final User? usuario;
+  const ModificarUsuario({Key? key, required this.usuario}) : super(key:key);
 
 /*   @override
   Widget build(BuildContext context) {
@@ -19,13 +23,15 @@ class RegistrarUsuario extends StatelessWidget {
   } */
   @override
   Widget build(BuildContext context) {
-    return const Home();
+    return Home(usuario: usuario,);
   }
 }
 
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final User? usuario; // Agregar usuario como un parámetro
+
+  const Home({Key? key, required this.usuario}) : super(key: key);
   
 
   @override
@@ -42,13 +48,23 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: cuerpo()
+      body: cuerpo(widget.usuario)
       
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    // Establece el valor inicial en el controlador
+    _nombreController.text = widget.usuario?.nombre ?? '';
+    _apellidosController.text = widget.usuario?.apellido ?? '';
+    _correoController.text = widget.usuario?.correo ?? '';
+    _celularController.text = widget.usuario?.telefono ?? '';
+  }
 
-Widget cuerpo(){
+
+Widget cuerpo(User? usuario){
   return Stack (
   children: [
   Container (
@@ -76,7 +92,9 @@ Widget cuerpo(){
               const SizedBox(height: 20,),
               nombre(),
               const SizedBox(height: 20,),
-              campoNombre(),
+              info(),
+              const SizedBox(height: 20,),
+              campoNombre(usuario),
               const SizedBox(height: 10),
               campoApellidos(),
               const SizedBox(height: 10),
@@ -89,7 +107,7 @@ Widget cuerpo(){
               campoNumCelular(),
               //campoNumTelefono(),
               const SizedBox(height: 20),
-              botonRegistrarse(),
+              botonModificar(),
               const SizedBox(height: 20),
             ],
           ),
@@ -112,18 +130,30 @@ Widget cuerpo(){
 
 Widget atras(){
     return IconButton(onPressed: (){
+      final sessionProvider = Provider.of<SessionProvider>(context, listen: false);
+      final user = sessionProvider.user;
       Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const StartPage()),
+        context,
+        MaterialPageRoute(builder: (context) => AjustesUsuario(user: user)),
     );
     }, iconSize: 40, icon: const Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 255, 255),), alignment: Alignment.topLeft,);
     }
 
 Widget nombre(){
-  return const Text("REGISTRO DE USUARIO", style: TextStyle(color: Colors.black, fontSize: 22.0),);
+  return const Text("MODIFICAR DATOS DE USUARIO", style: TextStyle(color: Colors.black, fontSize: 20.0),);
 }
 
-Container campoNombre(){
+Widget info() {
+  return Center(
+    child: Text(
+      "Puede mantener su contraseña o actualizarla al ingresar una nueva", 
+      style: TextStyle(color: Colors.black, fontSize: 16.0),
+      textAlign: TextAlign.center, // Asegura que el texto esté centrado
+    ),
+  );
+}
+
+Container campoNombre(User? usuario){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
     height: 55,
@@ -131,7 +161,6 @@ Container campoNombre(){
       controller: _nombreController,
       style: const TextStyle(fontSize: 16),
       decoration: const InputDecoration(
-        hintText: "Nombre",
         fillColor: Color.fromARGB(255, 236, 236, 236),
         filled: true,
         errorStyle: TextStyle(fontSize: 12)
@@ -206,7 +235,7 @@ Widget campoCorreo(){
 }
 
 bool _esCorreoValido(String correo){
-  final RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
+  final RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)*(\.[a-zA-Z]{2,})$');
   return regex.hasMatch(correo);
 }
 
@@ -353,22 +382,45 @@ Widget campoNumTelefono(){
 }
 
 
-Widget botonRegistrarse(){
+Widget botonModificar(){
 
   return SizedBox(
-    width: MediaQuery.of(context).size.width * 0.75,
+    width: 250,
     height: 55,
     child: TextButton.icon(
-    icon: const Icon(Icons.how_to_reg, color: Color.fromARGB(255, 0, 0, 0),),
+    icon: const Icon(Icons.how_to_reg, color: Color.fromARGB(255, 255, 255, 255),),
     onPressed: (){
         if(_formKey.currentState?.validate() ?? false){
-          _enviarDatos();
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('¡Atención!'),
+                content: Text('Al modificar tus datos, tendrás que iniciar sesión nuevamente'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Cierra el diálogo
+                    },
+                    child: Text('Cancelar'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _enviarDatos();
+                      Navigator.of(context).pop(); // Realiza la modificación
+                    },
+                    child: Text('Aceptar'),
+                  ),
+                ],
+              );
+            },
+          );
           //Añadir a base de datos
         }
     },
-    label: const Text("Registrarse", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
+    label: const Text("Actualizar información", style: TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 17)),
     style: TextButton.styleFrom(
-      backgroundColor: const Color.fromARGB(255, 253, 229, 8),
+      backgroundColor: const Color.fromARGB(255, 80, 8, 212),
       padding: const EdgeInsets.all(13),
       side: const BorderSide(width: 1, color: Colors.black)
       ),
@@ -410,16 +462,20 @@ String encriptarContrasena(String contrasena) {
 
 
 void _enviarDatos() async {
-  final url = Uri.parse('http://rostrosencontrados.pythonanywhere.com/registrar_usuario');
+  final sessionProvider = Provider.of<SessionProvider>(context, listen: false);
+  final correoActual = widget.usuario?.correo;
+  final url = Uri.parse('http://rostrosencontrados.pythonanywhere.com/modificar_usuario');
   final contrasenaEncriptada = encriptarContrasena(_contrasenaController.text);
-  // Construye el cuerpo de la solicitud con los datos que deseas enviar
+  print('Correo actual:${correoActual}');
+  print('Correo nuevo:${_correoController.text}');
+  // Construye el cuerpo de la solicitud
   final body = jsonEncode({
     'nombre': _nombreController.text,
     'apellidos': _apellidosController.text,
     'correo': _correoController.text,
     'contrasena': contrasenaEncriptada,
     'celular': _celularController.text,
-    // Agrega más campos según tus necesidades
+    'correo_actual': correoActual,
   });
 
   // Realiza la solicitud HTTP POST
@@ -433,11 +489,12 @@ void _enviarDatos() async {
   if (response.statusCode == 200) {
     // La solicitud fue exitosa
     print('Datos enviados exitosamente');
+    _mostrarMensajeExito(context);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const InicioSesion()),
     );
-    _mostrarMensajeExito(context);
+    sessionProvider.clearUser();
   }
   else if(response.statusCode == 402){
         print('Error al enviar datos: ${response.statusCode}');
@@ -455,7 +512,7 @@ void _mostrarMensajeExito(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('¡Éxito!'),
-        content: Text('Registro de usuario exitoso.'),
+        content: Text('Modificación de usuario exitoso.'),
         actions: <Widget>[
           TextButton(
             onPressed: () {

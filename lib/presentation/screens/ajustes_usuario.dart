@@ -3,6 +3,7 @@ import 'package:rostros_encontrados/presentation/screens/user.dart';
 import 'package:rostros_encontrados/presentation/screens/session_provider.dart';
 import 'package:rostros_encontrados/presentation/screens/start_page.dart';
 import 'package:rostros_encontrados/presentation/screens/ingreso.dart';
+import 'package:rostros_encontrados/presentation/screens/modificar_usuarios.dart';
 import 'package:provider/provider.dart';
 
 class AjustesUsuario extends StatelessWidget {
@@ -40,82 +41,106 @@ class AjustesUsuario extends StatelessWidget {
             vertical: 10,
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center, // Centra el contenido verticalmente
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Detalles del usuario:",
-                style: TextStyle(
-                  fontSize: 28.0,
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  decoration: TextDecoration.none,
+              Container(
+                alignment: Alignment.center, // Centra el texto horizontal y verticalmente
+                child: const Text(
+                  "Detalles del usuario",
+                  style: TextStyle(
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.bold, // Establece el peso de la fuente en negrita
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    decoration: TextDecoration.none,
+                  ),
                 ),
-                textAlign: TextAlign.start,
               ),
               const SizedBox(
                 height: 20,
               ),
-              Text(
-                "Nombre: ${user!.nombre} ${user!.apellido}",
-                style: const TextStyle(fontSize: 20),
-                textAlign: TextAlign.start,
+              Container(
+                alignment: Alignment.center,
+                child: Text(
+                  "Nombre: ${user!.nombre} ${user!.apellido}",
+                  style: const TextStyle(fontSize: 20),
+                  textAlign: TextAlign.start,
+                ),
               ),
               const SizedBox(height: 7),
-              Text(
-                "Correo electrónico: ${user!.correo}",
-                style: const TextStyle(fontSize: 20),
-                textAlign: TextAlign.start,
+              Container(
+                alignment: Alignment.center,
+                child: Text(
+                  "Correo electrónico: ${user!.correo}",
+                  style: const TextStyle(fontSize: 20),
+                  textAlign: TextAlign.start,
+                ),
               ),
               const SizedBox(height: 7),
-              Text(
-                "Teléfono: ${user!.telefono}",
-                style: const TextStyle(fontSize: 20),
-                textAlign: TextAlign.start,
+              Container(
+                //alignment: Alignment.center,
+                child: Text(
+                  "Teléfono: ${user!.telefono}",
+                  style: const TextStyle(fontSize: 20),
+                  textAlign: TextAlign.start,
+                ),
               ),
-/*               const SizedBox(height: 20),
-              SizedBox(
-                height: 55,
-                width: 300,
-                child: TextButton.icon(
-                  icon: const Icon(
-                    Icons.edit,
-                    color: Color.fromARGB(255, 0, 0, 0),
-                  ),
-                  onPressed: () {},
-                  label: const Text(
-                    "Modificar información",
-                    style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 22),
-                  ),
-                  style: TextButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 0, 137, 205),
-                    padding: const EdgeInsets.all(18),
-                    side: const BorderSide(width: 1, color: Colors.black),
+             const SizedBox(height: 20),
+              Container(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  height: 60,
+                  width: 300,
+                  child: TextButton.icon(
+                    icon: const Icon(
+                      Icons.edit,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ModificarUsuario(usuario: user)),
+                      );
+                    },
+                    label: const Text(
+                      "Modificar información",
+                      style: TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20),
+                    ),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 80, 8, 212),
+                      padding: const EdgeInsets.all(18),
+                      side: const BorderSide(width: 1, color: Colors.black),
+                    ),
                   ),
                 ),
-              ), */
+              ),
               const SizedBox(height: 20),
-              SizedBox(
-                height: 55,
-                width: 300,
-                child: TextButton.icon(
-                  icon: const Icon(
-                    Icons.logout,
-                    color: Color.fromARGB(255, 0, 0, 0),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const StartPage()),
-                    );
-                    sessionProvider.clearUser();
-                  },
-                  label: const Text(
-                    "Cerrar sesión",
-                    style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 22),
-                  ),
-                  style: TextButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 224, 8, 8),
-                    padding: const EdgeInsets.all(18),
-                    side: const BorderSide(width: 1, color: Colors.black),
+              Container(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  height: 60,
+                  width: 300,
+                  child: TextButton.icon(
+                    icon: const Icon(
+                      Icons.logout,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const StartPage()),
+                      );
+                      sessionProvider.clearUser();
+                    },
+                    label: const Text(
+                      "Cerrar sesión",
+                      style: TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20),
+                    ),
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 224, 8, 8),
+                      padding: const EdgeInsets.all(18),
+                      side: const BorderSide(width: 1, color: Colors.black),
+                    ),
                   ),
                 ),
               ),

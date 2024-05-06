@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:rostros_encontrados/presentation/screens/CoincidenciaEncontrada.dart';
 import 'package:rostros_encontrados/presentation/screens/AunNoCoincidencias.dart';
+import 'package:rostros_encontrados/presentation/screens/RostroNoReconocido.dart';
 import 'package:rostros_encontrados/presentation/screens/user.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
@@ -91,6 +92,14 @@ class _CamaraState extends State<Camara> {
           } else {
             print('Error: Datos de coincidencia incompletos');
           }
+        }else if (responseGet.statusCode == 400) {
+          // Navegar a la pantalla RostroNoReconocido si no se encontraron coincidencias
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RostroNoReconocido(),
+            ),
+          );
         } else if (responseGet.statusCode == 404) {
           // Navegar a la pantalla AunNoCoincidencias si no se encontraron coincidencias
           Navigator.push(
@@ -146,7 +155,9 @@ class _CamaraState extends State<Camara> {
                 ElevatedButton.icon(
                   icon: const Icon(Icons.image, color: Color.fromARGB(255, 0, 0, 0)),
                   onPressed: isLoading ? null : () async {
-                    final results = await FilePicker.platform.pickFiles();
+                    final picker = ImagePicker();
+                    final results = await picker.pickImage(source: ImageSource.gallery);
+                    //final results = await FilePicker.platform.pickFiles();
 
                     if (results == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -157,7 +168,7 @@ class _CamaraState extends State<Camara> {
                       return;
                     }
 
-                    try {
+                    //try {
                       final url = Uri.parse('http://rostrosencontrados.pythonanywhere.com/enviar_nombre_imagen');
                       final response = await http.get(url);
 
@@ -166,15 +177,18 @@ class _CamaraState extends State<Camara> {
                       if (response.statusCode == 200) {
                         final data = json.decode(response.body);
                         nombreImagen = data['ultima_imagen'];
-                        final ruta = results.files.single.bytes;
-                         final urlFirebase = await storage.subirArchivo(ruta, nombreImagen);
+                        List<int> fileBytes = await results.readAsBytes();
+                        Uint8List uint8List = Uint8List.fromList(fileBytes);
+                        final ruta = uint8List;
+                        final urlFirebase = await storage.subirArchivo(ruta, nombreImagen);
                         _descargarImagen(context, nombreImagen);
                       } else {
                         print('Error al enviar datosjdj: ${response.statusCode}');
+                        _mostrarMensajeError(context, 'Error al subir la imagen, intente nuevamente');
                       }
-                    } catch (e) {
-                      print('No se completó la acción deseada');
-                    }
+                    //} catch (e) {
+                      //print('No se completó la acción deseada');
+                    //}
                   },
                   label: const Text("    Galería       ", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 22)),
                   style: TextButton.styleFrom(
@@ -218,7 +232,8 @@ class _CamaraState extends State<Camara> {
                         final urlFirebase = await storage.subirArchivo(ruta, nombreImagen);
                         _descargarImagen(context, nombreImagen);
                       } else {
-                        print('Error al enviar datoskjdksjk: ${response.statusCode}');
+                        print('Error al enviar datos1: ${response.statusCode}');
+                        _mostrarMensajeError(context, 'Error al subir la imagen, intente nuevamente');
                       }
                     } catch (e) {
                       print('No se completó la acción deseada');
