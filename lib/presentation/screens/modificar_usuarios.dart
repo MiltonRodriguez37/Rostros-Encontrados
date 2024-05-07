@@ -69,8 +69,9 @@ Widget cuerpo(User? usuario){
   children: [
   Container (
     decoration: const BoxDecoration(
-      image: DecorationImage(image: AssetImage('assets/images/fondo.jpg'), //Imagen de fondo
-      fit: BoxFit.cover
+      image: DecorationImage(image: AssetImage('assets/images/fondoHospicio.jpg'), //Imagen de fondo
+      fit: BoxFit.cover,
+      colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken),
       ) 
     ),
     
@@ -140,7 +141,7 @@ Widget atras(){
     }
 
 Widget nombre(){
-  return const Text("MODIFICAR DATOS DE USUARIO", style: TextStyle(color: Colors.black, fontSize: 20.0),);
+  return const Text("MODIFICAR DATOS DE USUARIO", style: TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),);
 }
 
 Widget info() {
@@ -422,7 +423,7 @@ Widget botonModificar(){
     style: TextButton.styleFrom(
       backgroundColor: const Color.fromARGB(255, 80, 8, 212),
       padding: const EdgeInsets.all(13),
-      side: const BorderSide(width: 1, color: Colors.black)
+      side: const BorderSide(width: 1, color: Color.fromARGB(255, 80, 8, 212))
       ),
     ),
     /* child: TextButton(

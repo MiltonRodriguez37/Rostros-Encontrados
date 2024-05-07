@@ -51,7 +51,7 @@ class StartPage extends StatelessWidget {
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 253, 229, 8),
                       padding: const EdgeInsets.all(13),
-                      side: const BorderSide(width: 1, color: Colors.black)
+                      side: const BorderSide(width: 1, color: Color.fromARGB(255, 253, 229, 8))
                     ),
                 ),
                  /*  child: TextButton(
@@ -85,7 +85,7 @@ class StartPage extends StatelessWidget {
                   child: TextButton(
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: const Color.fromARGB(255, 8, 135, 253),
+                      backgroundColor: const Color.fromARGB(255, 21, 56, 181),
                       padding: const EdgeInsets.all(13),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                     ),

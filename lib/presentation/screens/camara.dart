@@ -44,6 +44,28 @@ class _CamaraState extends State<Camara> {
     );
   }
 
+  void _mostrarMensajeError2(BuildContext context, error) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('¡Oh no!'),
+          content: Text(error),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Aceptar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+
   void _descargarImagen(BuildContext context, String nombreImagen) async {
     setState(() {
       isLoading = true; // Activar indicador de carga
@@ -94,20 +116,22 @@ class _CamaraState extends State<Camara> {
           }
         }else if (responseGet.statusCode == 400) {
           // Navegar a la pantalla RostroNoReconocido si no se encontraron coincidencias
-          Navigator.push(
+          /* Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => RostroNoReconocido(),
             ),
-          );
+          ); */
+          _mostrarMensajeError2(context,'No se pudo reconocer ningún rostro en la imagen, intentalo de nuevo');
         } else if (responseGet.statusCode == 404) {
           // Navegar a la pantalla AunNoCoincidencias si no se encontraron coincidencias
-          Navigator.push(
+          /* Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => AunNoCoincidencias(),
             ),
-          );
+          ); */
+          _mostrarMensajeError2(context,'No se encontraron coincidencias, intentalo de nuevo');
         } else {
           print('Error en la respuesta GET ${responseGet.statusCode}');
           print('Respuesta JSON: ${responseGet.body}');
@@ -153,7 +177,8 @@ class _CamaraState extends State<Camara> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.image, color: Color.fromARGB(255, 0, 0, 0)),
+                  
+                  icon: const Icon(Icons.image, color: Colors.white),
                   onPressed: isLoading ? null : () async {
                     final picker = ImagePicker();
                     final results = await picker.pickImage(source: ImageSource.gallery);
@@ -190,11 +215,12 @@ class _CamaraState extends State<Camara> {
                       //print('No se completó la acción deseada');
                     //}
                   },
-                  label: const Text("    Galería       ", style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 22)),
+                  label: const Text("    Galería       ", style: TextStyle(color: Colors.white, fontSize: 22)),
                   style: TextButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 253, 229, 8),
+                    backgroundColor: const Color.fromARGB(255, 21, 56, 181),
                     padding: const EdgeInsets.all(18),
-                    side: const BorderSide(width: 1, color: Colors.black)
+                    side: const BorderSide(width: 1, color: Color.fromARGB(255, 21, 56, 181)),
+                    minimumSize: Size(MediaQuery.of(context).size.width * 0.75, 50),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -243,13 +269,15 @@ class _CamaraState extends State<Camara> {
                   style: TextButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 253, 229, 8),
                     padding: const EdgeInsets.all(18),
-                    side: const BorderSide(width: 1, color: Colors.black)
+                    side: const BorderSide(width: 1, color: Color.fromARGB(255, 253, 229, 8)),
+                    minimumSize: Size(MediaQuery.of(context).size.width * 0.75, 50),
                   ),
                 ),
                 const SizedBox(height: 20),
                 if (isLoading)
                   const Column(
                     children: [
+                      SizedBox(height: 40),
                       CircularProgressIndicator(),
                       SizedBox(height: 20),
                       Text(

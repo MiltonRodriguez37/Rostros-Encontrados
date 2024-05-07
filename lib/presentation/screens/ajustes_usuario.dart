@@ -109,7 +109,7 @@ class AjustesUsuario extends StatelessWidget {
                     style: TextButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 80, 8, 212),
                       padding: const EdgeInsets.all(18),
-                      side: const BorderSide(width: 1, color: Colors.black),
+                      side: const BorderSide(width: 1, color: Color.fromARGB(255, 80, 8, 212)),
                     ),
                   ),
                 ),
@@ -139,7 +139,7 @@ class AjustesUsuario extends StatelessWidget {
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 224, 8, 8),
                       padding: const EdgeInsets.all(18),
-                      side: const BorderSide(width: 1, color: Colors.black),
+                      side: const BorderSide(width: 1, color: Color.fromARGB(255, 224, 8, 8)),
                     ),
                   ),
                 ),

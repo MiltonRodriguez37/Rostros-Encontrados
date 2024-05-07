@@ -61,8 +61,9 @@ class _HomeState extends State<Home> {
 Widget cuerpo(){
   return Container (
     decoration: const BoxDecoration(
-      image: DecorationImage(image: AssetImage('assets/images/fondo.jpg'), //Imagen de fondo
-      fit: BoxFit.cover
+      image: DecorationImage(image: AssetImage('assets/images/fondoArco.jpg'), //Imagen de fondo
+      fit: BoxFit.cover,
+      colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken),
       
       ) 
     ),
@@ -113,7 +114,7 @@ Widget cuerpo(){
 }
 
 Widget nombre(){
-  return const Text("DATOS DEL DESAPARECIDO/A",  textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontSize: 22.0),);
+  return const Text("DATOS DEL DESAPARECIDO/A",  textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),);
 }
 
 Widget campoNombre(){
@@ -271,14 +272,14 @@ Widget botonAdjuntarImagen() {
     width: MediaQuery.of(context).size.width * 0.75,
     height: 50,
     child: TextButton.icon(
-      icon: const Icon(Icons.image, color: Color.fromARGB(255, 0, 0, 0),),
+      icon: const Icon(Icons.image, color: Colors.white),
       onPressed: _adjuntarImagen,
       label: Text(_imagenSeleccionada != null ? _imagenSeleccionada.name : "Adjuntar imagen",
-          style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
+          style: const TextStyle(color: Colors.white, fontSize: 17)),
       style: TextButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 8, 135, 253),
+        backgroundColor: Color.fromARGB(255, 21, 56, 181),
         padding: const EdgeInsets.all(13),
-        side: const BorderSide(width: 1, color: Colors.black)
+        side: const BorderSide(width: 0.5, color:Color.fromARGB(255, 21, 56, 181))
       ),
     ),
   );
@@ -396,7 +397,7 @@ Widget botonEnviarDatos(){
     style: TextButton.styleFrom(
       backgroundColor: const Color.fromARGB(255, 253, 229, 8),
       padding: const EdgeInsets.all(13),
-      side: const BorderSide(width: 1, color: Colors.black)
+      side: const BorderSide(width: 0.5, color: Color.fromARGB(255, 253, 229, 8))
       ),
     ),
     /* child: TextButton(

@@ -53,9 +53,9 @@ Widget cuerpo(BuildContext context){
   children: [
   Container (
     decoration: const BoxDecoration(
-      image: DecorationImage(image: AssetImage('assets/images/fondo.jpg'), //Imagen de fondo
-      fit: BoxFit.cover
-      
+      image: DecorationImage(image: AssetImage('assets/images/evanilson4.jpg'), //Imagen de fondo
+      fit: BoxFit.cover,
+      colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken),
       ) 
     ),
     
@@ -144,7 +144,7 @@ Widget atras(){
     }
 
 Widget nombre(){
-  return const Text("INICIO DE SESIÓN", style: TextStyle(color: Colors.black, fontSize: 22.0),);
+  return const Text("INICIO DE SESIÓN", style: TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),);
 }
 
 Widget campoUsuario(){
@@ -224,7 +224,7 @@ Widget botonEntrar(BuildContext context){
     style: TextButton.styleFrom(
       backgroundColor: const Color.fromARGB(255, 253, 229, 8),
       padding: const EdgeInsets.all(13),
-      side: const BorderSide(width: 1, color: Colors.black)
+      side: const BorderSide(width: 1, color: Color.fromARGB(255, 253, 229, 8))
       ),
     ),
    /*  child: TextButton(

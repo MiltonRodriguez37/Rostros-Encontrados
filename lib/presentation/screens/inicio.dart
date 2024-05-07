@@ -90,7 +90,7 @@ class Inicio extends StatelessWidget {
    Widget registro(Map<String, dynamic> registro, BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       decoration: BoxDecoration(
         color: const Color.fromARGB(211, 201, 201, 201),
         borderRadius: BorderRadius.circular(25),
@@ -170,9 +170,9 @@ class Inicio extends StatelessWidget {
                 ),
               label: const Text(" Eliminar registro ", style: TextStyle(color: Color.fromARGB(255, 253, 253, 253), fontSize: 17, decoration: TextDecoration.none,)),
               style: TextButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 224, 8, 8),
+                backgroundColor: Color.fromARGB(255, 21, 56, 181),
                 padding: const EdgeInsets.all(13),
-                side: const BorderSide(width: 1, color: Colors.black)
+                side: const BorderSide(width: 0.5, color: Color.fromARGB(255, 21, 56, 181))
               ),
             ),
           ),

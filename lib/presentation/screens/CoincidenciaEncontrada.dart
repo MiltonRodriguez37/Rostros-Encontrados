@@ -31,141 +31,244 @@ class _CoincidenciaEncontradaState extends State<CoincidenciaEncontrada> {
 
   Widget cuerpo() {
     return Container(
-      padding: const EdgeInsets.all(25),
       color: const Color.fromARGB(255, 253, 229, 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ElevatedButton(
-            onPressed: () {
-              // Acción al presionar "Volver"
-              // Aquí puedes agregar la lógica para volver atrás
-              Navigator.pop(context); // Cierra esta pantalla
-            },
-            child: Text("Volver"),
+      child: Container(
+        margin: EdgeInsets.all(10), // Ajusta los márgenes interiores según sea necesario
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(30), // Ajusta el radio de los bordes según sea necesario
+          border: Border.all(color: Colors.white, width: 15), // Agrega un borde gris alrededor del contenedor blanco
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            botonRegresar(),
+            const SizedBox(height: 3),
+            mensajeTitulo(),
+            const SizedBox(height: 3),
+            mensajeNombre(),
+            const SizedBox(height: 3),
+            mensajePorcentaje(),
+            const SizedBox(height: 20),
+            imagenes(),
+            mensaje2(),
+            const SizedBox(height: 5),
+            mensaje3(),
+            const SizedBox(height: 5),
+            mensaje4(),
+            const SizedBox(height: 20),
+            mensajeSubtitulo(),
+            const SizedBox(height: 7),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(color: Colors.black, fontSize: 15.0),
+                children: [
+                  TextSpan(
+                    text: 'Fecha de nacimiento: ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                    text: '${widget.detallesCoincidencia['fecha_nac']}',
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 2),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(color: Colors.black, fontSize: 15.0),
+                children: [
+                  TextSpan(
+                    text: 'Fecha y lugar donde se vió por última vez: ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                    text: '${widget.detallesCoincidencia['fecha_lugar']}',
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 2),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(color: Colors.black, fontSize: 15.0),
+                children: [
+                  TextSpan(
+                    text: 'Características: ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                    text: '${widget.detallesCoincidencia['caracteristicas']}',
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 2),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(color: Colors.black, fontSize: 15.0),
+                children: [
+                  TextSpan(
+                    text: 'Datos adicionales: ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                    text: '${widget.detallesCoincidencia['datos_adicionales']}',
+                  ),
+                ],
+              ),
+            ),
+            
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget mensajeTitulo() {
+    return Container(
+      alignment: Alignment.center,
+      child: const Text(
+        "¡Coincidencia encontrada!",
+        style: TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget mensaje2() {
+    return const Text(
+      "Puedes contactar al usuario que registró a esta persona a través de:",
+      textAlign: TextAlign.start,
+      style: TextStyle(color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.bold),
+    );
+  }
+
+  Widget mensaje3() {
+    return RichText(
+      textAlign: TextAlign.start,
+      text: TextSpan(
+        style: TextStyle(color: Colors.black, fontSize: 15.0, ),
+        children: [
+          TextSpan(
+            text: 'Teléfono: ',
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 10),
-          mensaje1(),
-          const SizedBox(height: 15),
-          mensaje2(),
-          const SizedBox(height: 10),
-          mensaje3(),
-          const SizedBox(height: 10),
-          mensaje4(),
-          const SizedBox(height: 15),
-          imagenes(),
-          //widgetsAbajo(),
-          //SizedBox(height: 20),
-          /* Text(
-            'ID de Coincidencia: ${widget.idCoincidencia}',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black, fontSize: 20),
-          ), */
-          Text(
-            'Porcentaje de Coincidencia: ${widget.porcentajeCoincidencia.toStringAsFixed(2)}%',
-            //textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            'Nombre: ${widget.detallesCoincidencia['nombre_persona']} ${widget.detallesCoincidencia['apellido_persona']}',
-            //textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            'Fecha de nacimiento: ${widget.detallesCoincidencia['fecha_nac']}',
-            //textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            'Fecha y último lugar donde se vio: ${widget.detallesCoincidencia['fecha_lugar']}',
-            //textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            'Características: ${widget.detallesCoincidencia['caracteristicas']}',
-            //textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            'Datos adicionales: ${widget.detallesCoincidencia['datos_adicionales']}',
-            //textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+          TextSpan(
+            text: widget.detallesUsuario['telefono'],
           ),
         ],
       ),
     );
   }
 
-  Widget mensaje1() {
-    return const Text(
-      "¡Coincidencia encontrada!",
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),
+   Widget mensaje4() {
+    return RichText(
+      textAlign: TextAlign.start,
+      text: TextSpan(
+        style: TextStyle(color: Colors.black, fontSize: 15.0),
+        children: [
+          TextSpan(
+            text: 'Correo: ',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: widget.detallesUsuario['correo'],
+          ),
+        ],
+      ),
     );
   }
 
-  Widget mensaje2() {
-    return const Text(
-      "Puedes comunicarte con el usuario que registró a esta persona por medio de su teléfono o su correo electrónico:",
-      textAlign: TextAlign.start,
-      style: TextStyle(color: Colors.black, fontSize: 15.0),
+  Widget mensajePorcentaje() {
+    return Center(
+      child: Text(
+        'Similitud: ${widget.porcentajeCoincidencia.toStringAsFixed(2)}%',
+        style: TextStyle(color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.bold),
+      ),
     );
   }
 
-    Widget mensaje3() {
-    return Text(
-      "Teléfono: ${widget.detallesUsuario['telefono']}",
-      textAlign: TextAlign.start,
-      style: TextStyle(color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.bold),
-    );
-  }
-    Widget mensaje4() {
-    return Text(
-      "Correo: ${widget.detallesUsuario['correo']}",
-      textAlign: TextAlign.start,
-      style: TextStyle(color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.bold),
+  Widget mensajeNombre() {
+    return Center(
+      child: Text(
+        '${widget.detallesCoincidencia['nombre_persona']} ${widget.detallesCoincidencia['apellido_persona']}',
+        style: TextStyle(color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.bold),
+      ),
     );
   }
 
-  Widget imagenes() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
+  Widget mensajeSubtitulo() {
+    return Center(
+      child: Text(
+        'Información adicional',
+        style: TextStyle(color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  
+
+Widget imagenes() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: <Widget>[
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            width: 150.0, // Ancho máximo del contenedor
             height: 175.0,
-            width: 125.0,
             child: widget.encontrado,
-            ),
-            const SizedBox(height: 15),
-            const Text(
-              'Foto tomada por ti',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black, fontSize: 17.0),
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
+          ),
+          const SizedBox(height: 15),
+          const Text(
+            'Foto tomada por ti',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            width: 150.0, // Ancho máximo del contenedor
             height: 175.0,
-            width: 125.0,
             child: widget.desaparecido,
           ),
-            const SizedBox(height: 15),
-            const Text(
-              'Foto registrada',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black, fontSize: 17.0),
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ],
+          const SizedBox(height: 15),
+          const Text(
+            'Foto registrada',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
+    ],
+  );
+}
+
+
+
+
+
+  
+
+  Widget botonRegresar() {
+    return Padding(
+      padding: EdgeInsets.only(left: 0.0), // Ajusta el valor según sea necesario
+      child: IconButton(
+        icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 48, 48, 48)),
+        onPressed: () {
+          Navigator.pop(context); 
+        },
+        iconSize: 30,
+        color: Color.fromARGB(255, 224, 8, 8),
+      ),
     );
   }
+
+
 }
