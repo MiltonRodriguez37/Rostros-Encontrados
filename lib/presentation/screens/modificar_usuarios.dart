@@ -86,6 +86,7 @@ Widget cuerpo(User? usuario){
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.white, width: 2),
             ),
           child: Column (
             mainAxisAlignment: MainAxisAlignment.center, //Teniendo la columna, se debe centrar dentro de la columna
@@ -96,15 +97,15 @@ Widget cuerpo(User? usuario){
               info(),
               const SizedBox(height: 20,),
               campoNombre(usuario),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoApellidos(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoCorreo(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoContrasena(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoRepContrasena(),
-              const SizedBox(height: 10),              
+              const SizedBox(height: 2),              
               campoNumCelular(),
               //campoNumTelefono(),
               const SizedBox(height: 20),
@@ -157,7 +158,7 @@ Widget info() {
 Container campoNombre(User? usuario){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _nombreController,
       style: const TextStyle(fontSize: 16),
@@ -166,6 +167,7 @@ Container campoNombre(User? usuario){
         filled: true,
         errorStyle: TextStyle(fontSize: 12)
       ),
+      maxLength: 19,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Por favor, ingresa tu nombre';
@@ -181,7 +183,7 @@ Container campoNombre(User? usuario){
 Container campoApellidos(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _apellidosController,
       style: const TextStyle(fontSize: 16),
@@ -192,6 +194,7 @@ Container campoApellidos(){
         filled: true,
         errorStyle: TextStyle(fontSize: 12)
       ),
+      maxLength: 19,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Por favor, ingresa tu apellido';
@@ -213,7 +216,7 @@ bool _esNombreApellidoValido(String nombre){
 Widget campoCorreo(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _correoController,
       style: const TextStyle(fontSize: 16),
@@ -223,6 +226,7 @@ Widget campoCorreo(){
         filled: true,
         errorStyle: TextStyle(fontSize: 12)
       ),
+      maxLength: 256,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Por favor, ingresa tu correo';
@@ -266,7 +270,7 @@ Widget _visibilidadRepContrasena() {
 Widget campoContrasena(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _contrasenaController,
       style: const TextStyle(fontSize: 16),
@@ -279,6 +283,7 @@ Widget campoContrasena(){
         errorStyle: const TextStyle(fontSize: 12),
         suffixIcon: _visibilidadContrasena(),
       ),
+      maxLength: 255,
       validator: (value) => _obtenerMensajeErrorContrasena(value ?? ""),
     ),
   );
@@ -312,7 +317,7 @@ String? _obtenerMensajeErrorContrasena(String contrasena) {
 Widget campoRepContrasena(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       style: const TextStyle(fontSize: 16),
       obscureText: _obscureText2,
@@ -323,6 +328,7 @@ Widget campoRepContrasena(){
         errorStyle: TextStyle(fontSize: 12),
         suffixIcon: _visibilidadRepContrasena(),
       ),
+      maxLength: 255,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Por favor, repite tu contraseña';
@@ -340,7 +346,7 @@ Widget campoRepContrasena(){
 Widget campoNumCelular(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _celularController,
       style: const TextStyle(fontSize: 16),
@@ -351,6 +357,7 @@ Widget campoNumCelular(){
         errorMaxLines: 2,
         errorStyle: TextStyle(fontSize: 12)
       ),
+      maxLength: 10,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Por favor, ingresa tu número';
@@ -371,7 +378,7 @@ Widget campoNumCelular(){
 Widget campoNumTelefono(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: const TextField(
       decoration: InputDecoration(
         hintText: "Número de teléfono fijo",

@@ -29,101 +29,114 @@ class _CoincidenciaEncontradaState extends State<CoincidenciaEncontrada> {
     );
   }
 
-  Widget cuerpo() {
-    return Container(
-      color: const Color.fromARGB(255, 253, 229, 8),
-      child: Container(
-        margin: EdgeInsets.all(10), // Ajusta los márgenes interiores según sea necesario
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30), // Ajusta el radio de los bordes según sea necesario
-          border: Border.all(color: Colors.white, width: 15), // Agrega un borde gris alrededor del contenedor blanco
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            botonRegresar(),
-            const SizedBox(height: 3),
-            mensajeTitulo(),
-            const SizedBox(height: 3),
-            mensajeNombre(),
-            const SizedBox(height: 3),
-            mensajePorcentaje(),
-            const SizedBox(height: 20),
-            imagenes(),
-            mensaje2(),
-            const SizedBox(height: 5),
-            mensaje3(),
-            const SizedBox(height: 5),
-            mensaje4(),
-            const SizedBox(height: 20),
-            mensajeSubtitulo(),
-            const SizedBox(height: 7),
-            RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.black, fontSize: 15.0),
-                children: [
-                  TextSpan(
-                    text: 'Fecha de nacimiento: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(
-                    text: '${widget.detallesCoincidencia['fecha_nac']}',
-                  ),
-                ],
+Widget cuerpo() {
+  return Container(
+    color: const Color.fromARGB(255, 253, 229, 8),
+    child: Container(
+      margin: EdgeInsets.all(10), // Ajusta los márgenes interiores según sea necesario
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch, // Ajusta el alineamiento de los hijos para expandirse verticalmente
+        children: <Widget>[
+          SizedBox(height: 25), // Espacio antes de todo el contenido
+          Expanded( // Utiliza Expanded en lugar de Flexible
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30), // Ajusta el radio de los bordes según sea necesario
+                border: Border.all(color: Colors.white, width: 15), // Agrega un borde alrededor del contenedor blanco
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    botonRegresar(),
+                    SizedBox(height: 3),
+                    mensajeTitulo(),
+                    SizedBox(height: 3),
+                    mensajeNombre(),
+                    SizedBox(height: 3),
+                    mensajePorcentaje(),
+                    SizedBox(height: 20),
+                    imagenes(),
+                    mensaje2(),
+                    SizedBox(height: 5),
+                    mensaje3(),
+                    SizedBox(height: 5),
+                    mensaje4(),
+                    SizedBox(height: 20),
+                    mensajeSubtitulo(),
+                    SizedBox(height: 7),
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(color: Colors.black, fontSize: 15.0),
+                        children: [
+                          TextSpan(
+                            text: 'Fecha de nacimiento: ',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text: '${widget.detallesCoincidencia['fecha_nac']}',
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 2),
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(color: Colors.black, fontSize: 15.0),
+                        children: [
+                          TextSpan(
+                            text: 'Fecha y lugar donde se vió por última vez: ',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text: '${widget.detallesCoincidencia['fecha_lugar']}',
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 2),
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(color: Colors.black, fontSize: 15.0),
+                        children: [
+                          TextSpan(
+                            text: 'Características: ',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text: '${widget.detallesCoincidencia['caracteristicas']}',
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 2),
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(color: Colors.black, fontSize: 15.0),
+                        children: [
+                          TextSpan(
+                            text: 'Datos adicionales: ',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text: '${widget.detallesCoincidencia['datos_adicionales']}',
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 2),
-            RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.black, fontSize: 15.0),
-                children: [
-                  TextSpan(
-                    text: 'Fecha y lugar donde se vió por última vez: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(
-                    text: '${widget.detallesCoincidencia['fecha_lugar']}',
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 2),
-            RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.black, fontSize: 15.0),
-                children: [
-                  TextSpan(
-                    text: 'Características: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(
-                    text: '${widget.detallesCoincidencia['caracteristicas']}',
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 2),
-            RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.black, fontSize: 15.0),
-                children: [
-                  TextSpan(
-                    text: 'Datos adicionales: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(
-                    text: '${widget.detallesCoincidencia['datos_adicionales']}',
-                  ),
-                ],
-              ),
-            ),
-            
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
+
 
   Widget mensajeTitulo() {
     return Container(

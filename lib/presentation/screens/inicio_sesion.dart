@@ -75,10 +75,11 @@ Widget cuerpo(BuildContext context){
           child: Column (
             mainAxisAlignment: MainAxisAlignment.center, //Teniendo la columna, se debe centrar dentro de la columna
             children: <Widget>[
+              const SizedBox(height: 5,),
               nombre(),
               const SizedBox(height: 20,),
               campoUsuario(),
-              const SizedBox(height: 5,),
+              const SizedBox(height: 2,),
               campoContrasena(),
               const SizedBox(height: 15,),
               botonEntrar(context),
@@ -151,7 +152,7 @@ Widget nombre(){
 Widget campoUsuario(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-    height: 75,
+    height: 85,
     child: TextFormField(
       controller: _usuarioController,
       decoration: const InputDecoration(
@@ -185,7 +186,7 @@ Widget _visibilidadContrasena() {
 Widget campoContrasena(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-    height: 75,
+    height: 85,
     child: TextFormField(
       controller: _contrasenaController,
       obscureText: _obscureText,

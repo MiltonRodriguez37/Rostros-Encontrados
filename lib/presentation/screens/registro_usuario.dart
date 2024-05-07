@@ -76,17 +76,17 @@ Widget cuerpo(){
             children: <Widget>[
               const SizedBox(height: 20,),
               nombre(),
-              const SizedBox(height: 20,),
+              const SizedBox(height: 20),
               campoNombre(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoApellidos(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoCorreo(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoContrasena(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoRepContrasena(),
-              const SizedBox(height: 10),              
+              const SizedBox(height: 2),              
               campoNumCelular(),
               //campoNumTelefono(),
               const SizedBox(height: 20),
@@ -127,7 +127,7 @@ Widget nombre(){
 Container campoNombre(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _nombreController,
       style: const TextStyle(fontSize: 16),
@@ -137,6 +137,7 @@ Container campoNombre(){
         filled: true,
         errorStyle: TextStyle(fontSize: 12)
       ),
+      maxLength: 19,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Por favor, ingresa tu nombre';
@@ -152,7 +153,7 @@ Container campoNombre(){
 Container campoApellidos(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _apellidosController,
       style: const TextStyle(fontSize: 16),
@@ -163,6 +164,7 @@ Container campoApellidos(){
         filled: true,
         errorStyle: TextStyle(fontSize: 12)
       ),
+      maxLength: 19,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Por favor, ingresa tu apellido';
@@ -184,7 +186,7 @@ bool _esNombreApellidoValido(String nombre){
 Widget campoCorreo(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _correoController,
       style: const TextStyle(fontSize: 16),
@@ -194,6 +196,7 @@ Widget campoCorreo(){
         filled: true,
         errorStyle: TextStyle(fontSize: 12)
       ),
+      maxLength: 256,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Por favor, ingresa tu correo';
@@ -237,7 +240,7 @@ Widget _visibilidadRepContrasena() {
 Widget campoContrasena(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _contrasenaController,
       style: const TextStyle(fontSize: 16),
@@ -251,6 +254,7 @@ Widget campoContrasena(){
         suffixIcon: _visibilidadContrasena(),
       ),
       validator: (value) => _obtenerMensajeErrorContrasena(value ?? ""),
+      maxLength: 255,
     ),
   );
 }
@@ -283,7 +287,7 @@ String? _obtenerMensajeErrorContrasena(String contrasena) {
 Widget campoRepContrasena(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       style: const TextStyle(fontSize: 16),
       obscureText: _obscureText2,
@@ -294,6 +298,7 @@ Widget campoRepContrasena(){
         errorStyle: TextStyle(fontSize: 12),
         suffixIcon: _visibilidadRepContrasena(),
       ),
+      maxLength: 255,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Por favor, repite tu contraseña';
@@ -311,7 +316,7 @@ Widget campoRepContrasena(){
 Widget campoNumCelular(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _celularController,
       style: const TextStyle(fontSize: 16),
@@ -322,6 +327,7 @@ Widget campoNumCelular(){
         errorMaxLines: 2,
         errorStyle: TextStyle(fontSize: 12)
       ),
+      maxLength: 10,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Por favor, ingresa tu número';
@@ -339,10 +345,11 @@ Widget campoNumCelular(){
     return regex.hasMatch(numCelular);
   }
 
+//No se usa
 Widget campoNumTelefono(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: const TextField(
       decoration: InputDecoration(
         hintText: "Número de teléfono fijo",

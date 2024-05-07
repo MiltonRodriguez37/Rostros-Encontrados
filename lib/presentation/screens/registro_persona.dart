@@ -85,23 +85,23 @@ Widget cuerpo(){
             children: <Widget>[
               const SizedBox(height: 20,),
               nombre(),
-              const SizedBox(height: 20,),
+              const SizedBox(height: 20),
               campoNombre(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoApellidos(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoFechaLugar(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoCaracteristicas(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoDatosAdicionales(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 2),
               campoFechaNac(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 2),
               botonAdjuntarImagen(),
-              const SizedBox(height: 10),
-              botonEnviarDatos(),
               const SizedBox(height: 20),
+              botonEnviarDatos(),
+              const SizedBox(height: 25),
             ],
           ),
         ),
@@ -120,7 +120,7 @@ Widget nombre(){
 Widget campoNombre(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _nombreController,
       decoration: const InputDecoration(
@@ -129,6 +129,7 @@ Widget campoNombre(){
         filled: true,
         errorStyle: TextStyle(fontSize: 12)
       ),
+      maxLength: 19,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Por favor, ingresa el nombre';
@@ -144,7 +145,7 @@ Widget campoNombre(){
 Widget campoApellidos(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _apellidosController,
       decoration: const InputDecoration(
@@ -154,6 +155,7 @@ Widget campoApellidos(){
         filled: true,
         errorStyle: TextStyle(fontSize: 12)
       ),
+      maxLength: 19,
       validator: (value) {
         if(value?.isEmpty ?? true){
           return 'Por favor, ingresa el apellido';
@@ -175,7 +177,7 @@ bool _esNombreApellidoValido(String nombre){
 Widget campoFechaNac(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextField(
       controller: _fechaController,
       decoration: const InputDecoration(
@@ -205,7 +207,7 @@ Future<DateTime?> _seleccionarFecha(BuildContext context) async {
 Widget campoFechaLugar(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _fechaLugarController,
       decoration: const InputDecoration(
@@ -214,6 +216,7 @@ Widget campoFechaLugar(){
         filled: true,
         errorStyle: TextStyle(fontSize: 12),
       ),
+      maxLength: 80,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Completa los campos';
@@ -227,7 +230,7 @@ Widget campoFechaLugar(){
 Widget campoCaracteristicas(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _caracteristicasController,
       decoration: const InputDecoration(
@@ -236,6 +239,7 @@ Widget campoCaracteristicas(){
         filled: true,
         errorStyle: TextStyle(fontSize: 12),
       ),
+      maxLength: 60,
       validator: (value){
         if(value?.isEmpty ?? true){
           return 'Completa los campos';
@@ -249,7 +253,7 @@ Widget campoCaracteristicas(){
 Widget campoDatosAdicionales(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
-    height: 55,
+    height: 85,
     child: TextFormField(
       controller: _datosAdicionalesController,
       decoration: const InputDecoration(
@@ -258,7 +262,8 @@ Widget campoDatosAdicionales(){
         filled: true,
         errorStyle: TextStyle(fontSize: 12),
       ),
-       validator: (value){
+      maxLength: 60,
+      validator: (value){
         if(value?.isEmpty ?? true){
           return 'Completa los campos';
         }
