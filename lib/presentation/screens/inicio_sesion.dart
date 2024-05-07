@@ -67,7 +67,7 @@ Widget cuerpo(BuildContext context){
         padding: const EdgeInsets.only(top: 80.0),
         child: Container (
           width: 250,
-            height: 295,
+            height: 320,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -78,10 +78,11 @@ Widget cuerpo(BuildContext context){
               nombre(),
               const SizedBox(height: 20,),
               campoUsuario(),
-              const SizedBox(height: 10,),
+              const SizedBox(height: 5,),
               campoContrasena(),
-              const SizedBox(height: 20,),
-              botonEntrar(context)
+              const SizedBox(height: 15,),
+              botonEntrar(context),
+              const SizedBox(height: 15,),
             ],
           ),
         ),
@@ -150,7 +151,7 @@ Widget nombre(){
 Widget campoUsuario(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-    height: 58,
+    height: 75,
     child: TextFormField(
       controller: _usuarioController,
       decoration: const InputDecoration(
@@ -184,7 +185,7 @@ Widget _visibilidadContrasena() {
 Widget campoContrasena(){
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-    height: 58,
+    height: 75,
     child: TextFormField(
       controller: _contrasenaController,
       obscureText: _obscureText,
@@ -210,8 +211,8 @@ Widget campoContrasena(){
 Widget botonEntrar(BuildContext context){
 
   return SizedBox(
-    width: 190,
-    height: 55,
+    width: 180,
+    height: 50,
     child: TextButton.icon(
     icon: const Icon(Icons.lock_open, color: Color.fromARGB(255, 0, 0, 0),),
     onPressed: (){
